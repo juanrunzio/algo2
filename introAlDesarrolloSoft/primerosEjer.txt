@@ -1,0 +1,6 @@
+Ejercicio para practicar:
+
+    1) Crear un script suma.sh que reciba una cantidad indeterminada de parámetros e imprima la suma de todos ellos. Por ejemplo, bash suma.sh 1 2 3 4 debería imprimir por pantalla 10.
+    2) Crear un script calculadora.sh que reciba como primer parámetro el operador (suma/resta/multiplicacion/division) y los siguientes dos, los operadores e imprima por pantalla el resultado. Por ejemplo, bash calculadora.sh resta 4 3 debería imprimir 1. Extra: contemplar el caso de división por 0.
+    3) Crear un script que reciba un número y cree esa cantidad de carpetas con nombre carpeta_i. Por ejemplo, bash crear_carpetas.sh 2 debería crear 2 carpetas: carpeta_1  y carpeta_2. Luego, borrar las impares.
+    4) Crear un script que reciba un número y cree esa cantidad de archivos con nombre archivo_i. El contenido de cada archivo tiene que ser la salida del comando fortune (sudo apt install fortune para instalar el comando).
