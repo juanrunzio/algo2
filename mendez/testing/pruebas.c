@@ -1,4 +1,6 @@
 #include "pila.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void alCrearUnaPila_laPilaNoEsNula() {
   pila_t* pila = NULL;
