@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+//IMPORTANTE-> puede que le falte algun free(), por la correccion
 
 int contador_de_separadores(const char *string, char separador) {
   int contador = 0;
