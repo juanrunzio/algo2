@@ -30,10 +30,31 @@ void lista_insertar_aumenta_el_tamanio_de_la_lista() {
   lista_t* lista = lista_crear();
   lista_insertar(lista, e1);
   pa2m_afirmar(lista_tamanio(lista) == 1, "Al insertar un elemento, la lista crece (tamanio 1)");
-  lista_destruir(lista, e2);
+  lista_insertar(lista, e2);
   pa2m_afirmar(lista_tamanio(lista) == 2, "Al insertar un elemento, la lista crece (tamanio 2)");
   lista_destruir(lista);
 
+
+}
+
+void lista_obtener_recupera_los_elementos_almacenados() {
+  //le asigno cualquier cosa como para que no se queje valgrind , al comparar algo q no esta inicializado
+  void *e1=(void*)1, *e2=(void*)2;
+  lista_t* lista = lista_crear();
+  lista_insertar(lista, e1);
+  lista_insertar(lista, e2);
+  pa2m_afirmar(lista_obtener(lista, 0) == e1, "Al obtener el primer elemento de la lista , obtengo el primer elemento insertado");
+  pa2m_afirmar(lista_obtener(lista, 1) == e2, "Al obtener el primer elemento de la lista, obtengo el segundo elemento insertado");
+  lista_destruir(lista);
+}
+
+void lista_obtener_de_una_posicion_inexistente_devuelve_null() {
+  void *e1=(void*)1, *e2=(void*)2;
+  lista_t* lista = lista_crear();
+  lista_insertar(lista, e1);
+  lista_insertar(lista, e2);
+  pa2m_afirmar(lista_obtener(lista, 100) == NULL, "Al obtener el elemento 100 de la lista tamanio 2, obtengo NULL");
+  lista_destruir(lista);
 
 }
 
@@ -44,8 +65,9 @@ int main(int argc, char *argv[]) {
   lista_obtener_devuelve_null_si_la_lista_esta_vacia();
 
 
-  pa2m_nuevo_grupo("Pruebas de insercion");
+  pa2m_nuevo_grupo("Pruebas de insercion y obtencion");
   lista_insertar_aumenta_el_tamanio_de_la_lista();
-
+  lista_obtener_recupera_los_elementos_almacenados();
+  lista_obtener_de_una_posicion_inexistente_devuelve_null();
   return 0;
 }
