@@ -46,8 +46,55 @@ int lista_tamanio(lista_t* lista) {
   return lista->tamanio;
 }
 
+void lista_iterar_todos_los_elementos(lista_t* lista, bool(f)(void*, int, void*), void* contexto) {
+
+    bool continuar = true;
+    for (int i=0;i<lista_tamanio(lista) && continuar; i++ ) {
+    //void* elemento = lista_obtener(lista, i); //O(n)
+    void* elemento = lista->vector[i];
+    continuar = f(elemento, i, contexto); //con esta funcion , puedo influenciar a los elementos que se estan iterando en el for de arriba
+  }
+
+}
+
 void lista_destruir(lista_t* lista) {
   //este es el orden correcto porque si liberamos primero la lista , despues no podemos acceder a esa referencia apuntada
   free(lista->vector);
   free(lista);
+}
+
+void lista_destruir_todo(lista_t* lista, void(f)(void*)) {
+  for (int i=0;i<lista_tamanio(lista); i++ ) {
+    if (f)
+      f(lista->vector[i]);
+  }
+  lista_destruir(lista);
+}
+
+struct lista_iterador {
+  int i;
+  lista_t* lista;
+};
+
+lista_iterador_t* lista_iterador_crear(lista_t* lista) {
+  lista_iterador_t* it = malloc(sizeof(lista_iterador_t));
+  if (it != NULL) {
+    it->i = 0;
+    it->lista= lista;
+  }
+  return it;
+
+}
+bool lista_iterador_hay_mas_elementos_por_recorrer(lista_iterador_t* it) {
+  return it->i < lista_tamanio(it->lista);
+}
+void iterador_siguiente_interacion(lista_iterador_t* it) {
+  it->i++;
+}
+void* lista_iterador_devolveme_un_elemento(lista_iterador_t* it) {
+  return it->lista->vector[it->i];
+}
+
+void lista_iterador_destruir(lista_iterador_t* it) {
+  free(it);
 }

@@ -58,6 +58,22 @@ void lista_obtener_de_una_posicion_inexistente_devuelve_null() {
 
 }
 
+void destruir(void* el) {
+  int* e = el;
+  (*e)++;
+}
+
+void lista_destruir_todo_destruye_todos_los_elementos() {
+  //void *e1=malloc(1), *e2=malloc(1);
+  int i1=1, i2=2;
+  lista_t* lista = lista_crear();
+  lista_insertar(lista, &i1);
+  lista_insertar(lista, &i2);
+  //lista_destruir_todo(lista, free);
+  lista_destruir_todo(lista, destruir);
+  pa2m_afirmar(i1==2 && i2==3, "El destructor del usuario fue aplicado a todos los elementos una vez")
+}
+
 int main(int argc, char *argv[]) {
   pa2m_nuevo_grupo("Pruebas de creacion");
   lista_crear_crea_una_lista_no_nula();
@@ -69,5 +85,9 @@ int main(int argc, char *argv[]) {
   lista_insertar_aumenta_el_tamanio_de_la_lista();
   lista_obtener_recupera_los_elementos_almacenados();
   lista_obtener_de_una_posicion_inexistente_devuelve_null();
+
+  pa2m_nuevo_grupo("Pruebas de destruccion");
+  lista_destruir_todo_destruye_todos_los_elementos();
+
   return 0;
 }
