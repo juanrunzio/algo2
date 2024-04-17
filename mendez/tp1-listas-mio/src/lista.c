@@ -35,39 +35,38 @@ lista_t *lista_crear() {
 
 lista_t *lista_insertar(lista_t *lista, void *elemento) {
   nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
-  if (nuevo_nodo == NULL)
-    return NULL;
-
+  if (!nuevo_nodo) {
+    return NULL; // Error: no se pudo reservar memoria para el nuevo nodo
+  }
   nuevo_nodo->elemento = elemento;
   nuevo_nodo->siguiente = NULL;
 
-  if (lista->nodo_inicio == NULL) {
+  if (!lista->nodo_inicio) {
     lista->nodo_inicio = nuevo_nodo;
   } else {
-    nodo_t *nodo_actual = lista->nodo_inicio;
-    while (nodo_actual->siguiente != NULL) {
-      nodo_actual = nodo_actual->siguiente;
+    nodo_t *actual = lista->nodo_inicio;
+    while (actual->siguiente) {
+      actual = actual->siguiente;
     }
-
-    nodo_actual->siguiente = nuevo_nodo;
+    actual->siguiente = nuevo_nodo;
   }
   return lista;
 }
-
 lista_t *lista_insertar_en_posicion(lista_t *lista, void *elemento,
                                     size_t posicion) {
   nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
-  if (nuevo_nodo == NULL)
-    return NULL;
+  if (!nuevo_nodo) {
+    return NULL; // Error: no se pudo reservar memoria para el nuevo nodo
+  }
   nuevo_nodo->elemento = elemento;
 
-  if (posicion == 0 || lista->nodo_inicio == NULL) {
+  if (posicion == 0 || !lista->nodo_inicio) {
     nuevo_nodo->siguiente = lista->nodo_inicio;
     lista->nodo_inicio = nuevo_nodo;
   } else {
     nodo_t *anterior = lista->nodo_inicio;
     size_t i = 0;
-    while (i < posicion - 1 && anterior->siguiente != NULL) {
+    while (i < posicion - 1 && anterior->siguiente) {
       anterior = anterior->siguiente;
       i++;
     }
