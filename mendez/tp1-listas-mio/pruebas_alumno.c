@@ -17,7 +17,7 @@ void prueba_insercion_final() {
   lista_t *lista = lista_crear();
   int elemento = 10;
   lista_insertar(lista, &elemento);
-  pa2m_afirmar(lista->nodo_inicio != NULL,
+  pa2m_afirmar(lista_primero(lista) != NULL,
                "Se insertó un elemento al final de la lista correctamente");
   lista_destruir(lista);
 }
@@ -27,7 +27,7 @@ void prueba_insercion_posicion() {
   int elemento = 10;
   lista_insertar_en_posicion(lista, &elemento, 0);
   pa2m_afirmar(
-      lista->nodo_inicio != NULL,
+      lista_primero(lista) != NULL,
       "Se insertó un elemento en la posición especificada correctamente");
   lista_destruir(lista);
 }
