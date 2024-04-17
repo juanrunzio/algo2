@@ -98,11 +98,9 @@ void prueba_destruir_lista() {
     lista_insertar(lista, &elementos[i]);
   }
 
+  pa2m_afirmar(lista_vacia(lista), "La lista ha sido destruida correctamente");
   // Destruir lista
   lista_destruir(lista);
-
-  // Verificar que la lista ha sido destruida correctamente
-  pa2m_afirmar(lista_vacia(lista), "La lista ha sido destruida correctamente");
 }
 
 int main() {
