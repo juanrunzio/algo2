@@ -154,9 +154,8 @@ void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
     return NULL;
 
   nodo_t *nodo_actual = lista->nodo_inicio;
-  void *elemento_encontrado = NULL;
 
-  while (nodo_actual != NULL) {
+  while (nodo_actual) {
     if (comparador(nodo_actual->elemento, contexto) == 0)
       return nodo_actual->elemento;
     nodo_actual = nodo_actual->siguiente;
