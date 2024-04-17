@@ -212,7 +212,7 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *)) {
   }
   free(lista);
 }
-
+/*
 lista_iterador_t *lista_iterador_crear(lista_t *lista) { return NULL; }
 
 bool lista_iterador_tiene_siguiente(lista_iterador_t *iterador) {
@@ -231,3 +231,4 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
                                void *contexto) {
   return 0;
 }
+ */
