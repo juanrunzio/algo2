@@ -36,7 +36,7 @@ lista_t *lista_crear() {
 lista_t *lista_insertar(lista_t *lista, void *elemento) {
   nodo_t *nuevo_nodo = malloc(sizeof(nodo_t));
   if (!nuevo_nodo) {
-    return NULL; // Error: no se pudo reservar memoria para el nuevo nodo
+    return NULL;
   }
   nuevo_nodo->elemento = elemento;
   nuevo_nodo->siguiente = NULL;
