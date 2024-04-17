@@ -1,6 +1,5 @@
-#include "./src/lista.c" //re-verr
-#include "./src/lista.h"
 #include "pa2m.h"
+#include "src/lista.h"
 
 void prueba_simple() {
   int i = 14;
@@ -49,6 +48,10 @@ void prueba_quitar_elemento() {
                "El elemento eliminado es el correcto");
 
   lista_destruir(lista);
+}
+
+int comparar_enteros(int *elemento1, int *elemento2) {
+  return *elemento1 - *elemento2;
 }
 
 void prueba_buscar_elemento() {

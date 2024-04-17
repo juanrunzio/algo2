@@ -144,10 +144,6 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion) {
   return nodo_actual->elemento;
 }
 
-int comparar_enteros(int *elemento1, int *elemento2) {
-  return *elemento1 - *elemento2;
-}
-
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
                             void *contexto) {
   if (!lista || !comparador)
