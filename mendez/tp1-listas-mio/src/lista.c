@@ -10,7 +10,7 @@ typedef struct nodo {
 struct lista {
   nodo_t *nodo_inicio;
   nodo_t *nodo_fin;
-  int longitud;
+  size_t longitud;
 
   // algo mas?
 };
@@ -107,7 +107,6 @@ void *lista_quitar_de_posicion(lista_t *lista, size_t posicion) {
   nodo_t *nodo_actual = lista->nodo_inicio;
   nodo_t *nodo_anterior = NULL;
   size_t i = 0;
-  void *elemento = NULL;
 
   while (i < posicion && nodo_actual->siguiente != NULL) {
     nodo_anterior = nodo_actual;
@@ -145,11 +144,18 @@ void *lista_elemento_en_posicion(lista_t *lista, size_t posicion) {
   return nodo_actual->elemento;
 }
 
+int comparar_enteros(int *elemento1, int *elemento2) {
+  return *elemento1 - *elemento2;
+}
+
 void *lista_buscar_elemento(lista_t *lista, int (*comparador)(void *, void *),
                             void *contexto) {
-  if (!lista || lista->longitud == 0 || !comparador)
+  if (!lista || !comparador)
     return NULL;
+
   nodo_t *nodo_actual = lista->nodo_inicio;
+  void *elemento_encontrado = NULL;
+
   while (nodo_actual != NULL) {
     if (comparador(nodo_actual->elemento, contexto) == 0)
       return nodo_actual->elemento;

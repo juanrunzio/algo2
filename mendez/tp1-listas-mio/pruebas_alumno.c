@@ -51,10 +51,6 @@ void prueba_quitar_elemento() {
   lista_destruir(lista);
 }
 
-void comparar_enteros(int *elemento1, int *elemento2) {
-  return *elemento1 - *elemento2;
-}
-
 void prueba_buscar_elemento() {
   lista_t *lista = lista_crear();
   int elemento1 = 10, elemento2 = 20, elemento3 = 30;
