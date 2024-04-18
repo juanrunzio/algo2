@@ -372,11 +372,9 @@ int iterador_interno_recorre_elementos_hasta_que_funcion_retorne_false() {
   lista = lista_insertar(lista, &numero_2);
   lista = lista_insertar(lista, &numero_3);
   pa2m_afirmar(lista_con_cada_elemento(lista, aux_it_interno, &numero_2) == 1,
-               "eL iterador interno devuelve la cantidad de elementos "
-               "recorridos, recorrio un elemento");
+               "Prueba con iterador interno, devuelve la cantidad de elementos recorridos, en este caso es 1");
   pa2m_afirmar(lista_con_cada_elemento(lista, aux_it_interno, NULL) == 3,
-               "eL iterador interno devuelve la cantidad de elementos "
-               "recorridos, al ser contexto == NULL, recorrio toda la lista");
+               "Prueba con iterador interno, devuelve la cantidad de elementos recorridos, al pasarle NULL recorre hasta el final de la lista, en este caso es 3");
   lista_destruir(lista);
   return 0;
 }

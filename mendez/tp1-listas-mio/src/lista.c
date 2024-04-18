@@ -1,26 +1,26 @@
 #include "lista.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>//agregado para debbuging
 
 typedef struct nodo {
   void *elemento;
   struct nodo *siguiente;
 } nodo_t;
 
-typedef struct lista {
+struct lista {
   nodo_t *nodo_inicio;
   nodo_t *nodo_fin;
   size_t cantidad; // cambiar por longituddd
   // algo mas?
+};
 
-} lista_t;
-
-typedef struct lista_iterador {
+struct lista_iterador {
   nodo_t *corriente;
   lista_t *lista;
   // y acá?
   int sarasa;
-} lista_iterador_t;
+};
 
 lista_t *lista_crear() {
   lista_t *nueva_lista = malloc(sizeof(lista_t));
@@ -304,7 +304,7 @@ void lista_iterador_destruir(lista_iterador_t *iterador) {
   if (iterador)
     free(iterador);
 }
-// revisar
+
 size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
                                void *contexto) {
   if (!lista || !funcion)
@@ -314,10 +314,11 @@ size_t lista_con_cada_elemento(lista_t *lista, bool (*funcion)(void *, void *),
   size_t i = 0;
   while (nodo_actual) {
     resultado = funcion(nodo_actual->elemento, contexto);
+    //printf("posicion i: %ld y el valor es: %d\n", i, *(int *)nodo_actual->elemento);
     if (!resultado)
-      return i + 1;
-    nodo_actual = nodo_actual->siguiente;
+      return i;
     i++;
+    nodo_actual = nodo_actual->siguiente;
   }
   return i;
 }
