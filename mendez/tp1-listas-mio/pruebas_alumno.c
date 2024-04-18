@@ -17,7 +17,6 @@ void prueba_insercion_final() {
   lista_t *lista = lista_crear();
   int elemento = 10;
   lista_insertar(lista, &elemento);
-  imprimir_lista(lista);
   pa2m_afirmar(*(int *)lista_ultimo(lista) == elemento,
                "Se insertó un elemento al final de la lista correctamente");
   lista_destruir(lista);
