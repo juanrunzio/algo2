@@ -2,7 +2,7 @@ VALGRIND_FLAGS=--leak-check=full --track-origins=yes --show-reachable=yes --erro
 CFLAGS =-g -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0
 CC = gcc
 
-all: clean valgrind
+all: clean valgrind-pruebas
 
 ejemplo: ejemplo.c src/*
 	$(CC) $(CFLAGS) src/*.c ejemplo.c -o ejemplo 2>&1
