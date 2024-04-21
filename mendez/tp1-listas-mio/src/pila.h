@@ -1,7 +1,7 @@
 #ifndef PILA_H_
 #define PILA_H_
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct _pila_t pila_t;
 

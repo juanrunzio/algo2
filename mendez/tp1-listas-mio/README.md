@@ -4,9 +4,7 @@
 
 # TDA LISTA
 
-# ESTO ES UN TEMPLATE, COMPLETAR LO QUE HAGA FALTA, ELIMINAR LO QUE SOBRE (INCLUIDA ESTA LÍNEA)
-
-## Alumno: (Nombre Apellido) - (Padrón) - (Mail)
+## Alumno: (Juan Bautista Oviedo Runzio) - (Padrón) - (Mail)
 
 - Para compilar:
 
@@ -21,13 +19,14 @@ línea de ejecución
 ```
 
 - Para ejecutar con valgrind:
+
 ```bash
 línea con valgrind
 ```
 
 ---
 
-##  Funcionamiento
+## Funcionamiento
 
 Explicación de cómo funcionan las estructuras desarrolladas en el TP y el funcionamiento general del mismo.
 
@@ -53,7 +52,6 @@ if(vector == NULL)
 vector_original = vector;
 ```
 
-
 <div align="center">
 <img width="70%" src="img/diagrama2.svg">
 </div>
@@ -61,4 +59,5 @@ vector_original = vector;
 ---
 
 ## Respuestas a las preguntas teóricas
+
 Incluír acá las respuestas a las preguntas del enunciado (si aplica).
