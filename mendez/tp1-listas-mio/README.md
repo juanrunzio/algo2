@@ -132,15 +132,17 @@ vector_original = vector;
 <img width="95%" src="img/TDA-3.jpg">
 </div>
 
-Insertar/obtener/eliminar al inicio:
+* Insertar/obtener/eliminar al inicio:
     Lista simplemente enlazada: Insertar y eliminar al inicio tienen una complejidad de O(1), ya que solo se modifican los punteros del primer elemento.
     Lista doblemente enlazada: También tienen una complejidad de O(1) para insertar y eliminar al inicio, ya que se pueden acceder tanto al primer elemento como al anterior de manera directa.
     Vector dinámico: Insertar al inicio tiene una complejidad de O(n) en promedio, ya que se deben desplazar todos los elementos hacia la derecha para hacer espacio para el nuevo elemento. Obtener y eliminar al inicio tienen una complejidad de O(1).
-Insertar/obtener/eliminar al final:
+
+* Insertar/obtener/eliminar al final:
     Lista simplemente enlazada: Insertar al final tiene una complejidad de O(n), ya que se debe iterar sobre todos los elementos para llegar al último. Obtener y eliminar al final también tienen una complejidad de O(n) en este caso.
     Lista doblemente enlazada: Insertar, obtener y eliminar al final tienen una complejidad de O(1), ya que se puede acceder directamente al último elemento.
     Vector dinámico: Insertar al final tiene una complejidad amortizada de O(1), ya que se puede agregar al final del vector sin necesidad de desplazar elementos. Obtener y eliminar al final tienen una complejidad de O(1).
-Insertar/obtener/eliminar al medio:
+
+* Insertar/obtener/eliminar al medio:
     Lista simplemente enlazada: Insertar, obtener y eliminar al medio tienen una complejidad de O(n), ya que se debe iterar sobre la lista para llegar a la posición deseada.
     Lista doblemente enlazada: Insertar, obtener y eliminar al medio tienen una complejidad de O(n/2), ya que se puede acceder al medio de la lista más rápidamente al tener punteros tanto hacia adelante como hacia atrás.
     Vector dinámico: Insertar, obtener y eliminar al medio tienen una complejidad de O(n), ya que se deben desplazar los elementos que están después de la posición deseada.
