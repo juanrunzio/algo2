@@ -60,7 +60,7 @@ Si se desea insertar en una posición específica n, el proceso sigue estos paso
 #### Diagrama de insertar
 
 <div align="center">
-<img width="70%" src="img/diagrama_insertar-1.jpg">
+<img width="85%" src="img/diagrama_insertar-1.jpg">
 </div>
 
 Para eliminar un elemento de la última posición, el proceso tiene una complejidad lineal O(n), siendo n la cantidad total de elementos en la lista, ya que implica buscar el nodo que precede al último nodo:
@@ -89,7 +89,7 @@ Para destruir todo, la funcion itera todos los nodos de la lista, aplicando una 
 #### Diagrama de destruir todo
 
 <div align="center">
-<img width="85%" src="img/diagrama_lista_destruir_todo-9 2.jpg">
+<img width="75%" src="img/diagrama_lista_destruir_todo-9 2.jpg">
 </div>
 
 ### Para los TDA Pila y Cola
