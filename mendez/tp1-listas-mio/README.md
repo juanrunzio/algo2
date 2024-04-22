@@ -57,6 +57,8 @@ Si se desea insertar en una posición específica n, el proceso sigue estos paso
     3. Se conecta el nuevo nodo con el nodo siguiente al nodo actual y se establece el nodo actual como el siguiente del nuevo nodo.
     4. Se incrementa la longitud.
 
+#### Diagrama de insertar
+
 <div align="center">
 <img width="70%" src="img/diagrama_insertar-1.jpg">
 </div>
@@ -76,11 +78,15 @@ Para eliminar un elemento en una posición específica n, el proceso sigue estos
     4. Se almacena el elemento del nodo auxiliar en un puntero void auxiliar.
     5. Se libera el nodo auxiliar, se decrementa en uno la longitud y se retorna el elemento almacenado en el puntero auxiliar.
 
+#### Diagrama de eliminar
+
 <div align="center">
 <img width="70%" src="img/diagrama_de_eliminacion-2.JPG">
 </div>
 
 Para destruir todo, la funcion itera todos los nodos de la lista, aplicando una operación al elemento (si existe) y luego liberando la memoria asignada a cada nodo. Una vez completado este proceso, se libera la memoria reservada para la lista en sí.
+
+#### Diagrama de destruir todo
 
 <div align="center">
 <img width="70%" src="img/diagrama_lista_destruir_todo-9 2.jpg">
