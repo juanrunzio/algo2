@@ -63,7 +63,7 @@ Si se desea insertar en una posición específica n, el proceso sigue estos paso
 
 Para eliminar un elemento de la última posición, el proceso tiene una complejidad lineal O(n), siendo n la cantidad total de elementos en la lista, ya que implica buscar el nodo que precede al último nodo:
 
-    1. Se itera hasta encontrar el nodo cuyo siguiente apunte al último nodo.
+    1. Se itera hasta encontrar el nodo que tenga como siguiente el puntero al último nodo.
     2. Se crea un puntero auxiliar que apunta al siguiente del nodo actual (último nodo) y otro puntero auxiliar que almacena el elemento del nodo auxiliar.
     3. Se actualiza el puntero al último nodo para que apunte al nodo actual (que ahora será el nuevo último nodo) y se libera el nodo auxiliar.
     4. Se decrementa en uno la longitud y se retorna el elemento almacenado en el nodo auxiliar.
@@ -75,6 +75,16 @@ Para eliminar un elemento en una posición específica n, el proceso sigue estos
     3. Se conecta el nodo actual con el nodo siguiente al nodo auxiliar.
     4. Se almacena el elemento del nodo auxiliar en un puntero void auxiliar.
     5. Se libera el nodo auxiliar, se decrementa en uno la longitud y se retorna el elemento almacenado en el puntero auxiliar.
+
+<div align="center">
+<img width="70%" src="img/diagrama_de_eliminacion-2.JPG">
+</div>
+
+Para destruir todo, la funcion itera todos los nodos de la lista, aplicando una operación al elemento (si existe) y luego liberando la memoria asignada a cada nodo. Una vez completado este proceso, se libera la memoria reservada para la lista en sí.
+
+<div align="center">
+<img width="70%" src="img/diagrama_lista_destruir_todo-9 2.jpg">
+</div>
 
 ### Por ejemplo:
 
