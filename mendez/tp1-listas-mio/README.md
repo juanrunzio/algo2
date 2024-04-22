@@ -4,35 +4,77 @@
 
 # TDA LISTA
 
-## Alumno: (Juan Bautista Oviedo Runzio) - (Padrón) - (Mail)
+## Alumno: (Juan Bautista Oviedo Runzio) - (110164) - (jbauti9@gmail.com/joviedo@fi.uba.ar)
+
+- Para correr todo:
+
+```bash
+make
+```
 
 - Para compilar:
 
 ```bash
-línea de compilación
+gcc -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g src/*.c pruebas_alumno.c -o pruebas_alumno
 ```
 
 - Para ejecutar:
 
 ```bash
-línea de ejecución
+./pruebas_alumno
 ```
 
 - Para ejecutar con valgrind:
 
 ```bash
-línea con valgrind
+valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_alumno
 ```
 
 ---
 
+## Introducción
+
+El objetivo central de este proyecto es aplicar el concepto de Tipo de Dato Abstracto (TDA) lista, utilizando nodos simplemente enlazados. Estos nodos permiten administrar bloques de memoria dinámica de forma no contigua. La lista está estructurada con un puntero que señala al primer nodo y otro puntero que señala al último nodo. Cada nodo contiene un puntero al siguiente nodo y al elemento que almacena.
+
+Con estas estructuras definidas para la lista, se procedió a implementar tanto una pila como una cola, realizando algunos ajustes necesarios. Para la cola, se sigue el principio de "primero en entrar, primero en salir(FIFO)", utilizando la función de inserción de la lista para encolar y la función de eliminación de posición con posición 0 para desencolar. Por otro lado, para la pila, siguiendo el principio de "último en entrar, primero en salir(LIFO)", se utiliza la función de inserción de la lista para apilar y la función de eliminación para desapilar.
+
+Para asegurar que los TDAs se implementaran correctamente, se llevaron a cabo pruebas unitarias, que abarcan una amplia gama de casos. Cada prueba valida un caso específico y garantiza que el código funcione correctamente en el futuro. Se adoptó una metodología de Desarrollo Guiado por Pruebas (TDD), donde primero se escriben las pruebas y luego se implementa la solución mínima para pasar esas pruebas.
+
 ## Funcionamiento
 
-Explicación de cómo funcionan las estructuras desarrolladas en el TP y el funcionamiento general del mismo.
+Para desarrollar el TDA lista con nodos simplemente enlazados, la estructura de la lista debe contar con punteros que señalen al primer y al último nodo, además de un contador para llevar la cuenta de la cantidad total de elementos en la lista.
 
-Aclarar en esta parte todas las decisiones que se tomaron al realizar el TP, cosas que no se aclaren en el enunciado, fragmentos de código que necesiten explicación extra, etc.
+Cuando se inserta un elemento en la última posición, el proceso sigue estos pasos con una complejidad constante O(1), ya que independientemente del tamaño de la lista, siempre se realizan las mismas operaciones:
 
-Incluír **EN TODOS LOS TPS** los diagramas relevantes al problema (mayormente diagramas de memoria para explicar las estructuras, pero se pueden utilizar otros diagramas si es necesario).
+    1. Se reserva espacio en memoria para un nuevo nodo, se le asigna el elemento y se establece su siguiente como NULL.
+    2. El último nodo existente en la lista pasa a tener como siguiente al nuevo nodo.
+    3. La lista pasa a tener como nodo final el nuevo nodo, se le suma uno a la longitud y se retorna el puntero a la lista.
+
+Si se desea insertar en una posición específica n, el proceso sigue estos pasos con una complejidad lineal O(n), donde n representa la posición deseada:
+
+    1. Se reserva espacio en memoria para el nuevo nodo y se le asigna el elemento.
+    2. Se itera hasta llegar al nodo que precede a la posición n-1.
+    3. Se conecta el nuevo nodo con el nodo siguiente al nodo actual y se establece el nodo actual como el siguiente del nuevo nodo.
+    4. Se incrementa la longitud.
+
+<div align="center">
+<img width="70%" src="img/diagrama_insertar-1.jpg">
+</div>
+
+Para eliminar un elemento de la última posición, el proceso tiene una complejidad lineal O(n), siendo n la cantidad total de elementos en la lista, ya que implica buscar el nodo que precede al último nodo:
+
+    1. Se itera hasta encontrar el nodo cuyo siguiente apunte al último nodo.
+    2. Se crea un puntero auxiliar que apunta al siguiente del nodo actual (último nodo) y otro puntero auxiliar que almacena el elemento del nodo auxiliar.
+    3. Se actualiza el puntero al último nodo para que apunte al nodo actual (que ahora será el nuevo último nodo) y se libera el nodo auxiliar.
+    4. Se decrementa en uno la longitud y se retorna el elemento almacenado en el nodo auxiliar.
+
+Para eliminar un elemento en una posición específica n, el proceso sigue estos pasos con una complejidad lineal O(n), ya que implica iterar hasta la posición n-1:
+
+    1. Se itera hasta llegar al nodo que precede a la posición n-1.
+    2. Se crea un puntero auxiliar que apunta al siguiente del nodo actual (nodo a eliminar).
+    3. Se conecta el nodo actual con el nodo siguiente al nodo auxiliar.
+    4. Se almacena el elemento del nodo auxiliar en un puntero void auxiliar.
+    5. Se libera el nodo auxiliar, se decrementa en uno la longitud y se retorna el elemento almacenado en el puntero auxiliar.
 
 ### Por ejemplo:
 
