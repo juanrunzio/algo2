@@ -92,6 +92,14 @@ Para destruir todo, la funcion itera todos los nodos de la lista, aplicando una 
 <img width="70%" src="img/diagrama_lista_destruir_todo-9 2.jpg">
 </div>
 
+### Para los TDA Pila y Cola
+
+Para estos escenarios específicos de la lista, se aprovecharon las estructuras y funciones previamente implementadas, tal como se detalló en la parte de Introducción. Para ello se casteo el puntero a la lista como si fuese un puntero a pila o cola respectivamente.
+
+En general, en las funciones donde se tiene que retornar un puntero a pila o cola se casteaba a la hora de retornar el puntero a lista a (pila_t _) o (cola_t _) dependiendo del caso. Por otro lado, a la hora de usar las funciones que reciben un puntero a lista como parámetro, se casteaba el puntero (lista_t \*) de modo de que la funcion tomara el puntero que se estaba pasando como si fuese un puntero a lista.
+
+Para llevar a cabo las operaciones con pila y cola, como se mencionó anteriormente, en el caso de la cola, se tiene como “contrato” que el primer elemento en entrar es el primero en salir, entonces para la implementación de encolar se utilizó la función de lista insertar y para desencolar se utilizó la función quitar de posición, usando siempre posición = 0 (primer elemento). En el caso de la pila se tiene como “contrato” que el primero en entrar es el último en salir, entonces para apilar se usó lista insertar y para desapilar se usó lista quitar.
+
 ### Por ejemplo:
 
 El programa funciona abriendo el archivo pasado como parámetro y leyendolo línea por línea. Por cada línea crea un registro e intenta agregarlo al vector. La función de lectura intenta leer todo el archivo o hasta encontrar el primer error. Devuelve un vector con todos los registros creados.
