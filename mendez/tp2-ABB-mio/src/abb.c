@@ -16,9 +16,34 @@ abb_t *abb_crear(abb_comparador comparador)
 	return nuevo_arbol;
 
 }
+nodo_abb_t *inserto_elemento_y_comparo(abb_t *arbol, nodo_abb_t *nodo_actual, void *elemento)
+{
+	if(nodo_actual == 0) {
+		nodo_abb_t *nuevo_nodo = malloc(sizeof(nodo_abb_t));
+		if(nuevo_nodo == 0)
+			return NULL;
+		nuevo_nodo->elemento = elemento;
+		nuevo_nodo->izquierda = NULL;
+		nuevo_nodo->derecha = NULL;
+		arbol->tamanio++;
+		return nuevo_nodo;
+	}
+
+	int comparacion = arbol->comparador(elemento, nodo_actual->elemento);
+	if (comparacion > 0)
+		nodo_actual->derecha = inserto_elemento_y_comparo(arbol, nodo_actual->derecha, elemento);
+
+	if(comparacion <= 0)//asumo que cuando el elemento es igual, va a la izquierda
+		nodo_actual->izquierda = inserto_elemento_y_comparo(arbol, nodo_actual->izquierda, elemento);
+
+	return nodo_actual;
+}
 
 abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
+	if(arbol == 0)
+		return NULL;
+	arbol->nodo_raiz = inserto_elemento_y_comparo(arbol, arbol->nodo_raiz, elemento);
 	return arbol;
 }
 
