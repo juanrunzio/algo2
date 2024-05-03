@@ -17,6 +17,7 @@ bool abb_existe(struct abb*, int n);
 void abb_con_cada_elemento(struct abb*, enum abb_recorrido, void (*f)(int, void*), void* aux);
 void abb_destruir(struct abb*);
 
+struct abb *abb_quitar(struct abb*, int n)
 
 
 

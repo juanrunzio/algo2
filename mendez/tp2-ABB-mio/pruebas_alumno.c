@@ -70,6 +70,33 @@ void prueba_de_insertar_elemento_en_un_arbol_que_es_null()
 	pa2m_afirmar(abb_insertar(NULL, &numero) == NULL, "El arbol es NULL, por lo tanto no se puede insertar ningun elemento");
 }
 
+void prueba_de_eliminar_un_elemento_del_arbol()
+{
+	int numero_28 = 28;
+	int numero_33 = 33;
+	int numero_4 = 4;
+	abb_t *nuevo_arbol = abb_crear(comparador);
+	abb_insertar(nuevo_arbol, &numero_28);//ver si hace falta la asignacion
+	abb_insertar(nuevo_arbol, &numero_33);
+	abb_insertar(nuevo_arbol, &numero_4);
+	//cambiar mnsj
+	pa2m_afirmar(abb_quitar(nuevo_arbol, &numero_4) == &numero_4, "eliminado");
+	pa2m_afirmar(abb_quitar(nuevo_arbol, &numero_33) == &numero_33, "eliminado");
+	pa2m_afirmar(abb_quitar(nuevo_arbol, &numero_28) == &numero_28, "eliminado");
+
+	pa2m_afirmar(abb_tamanio(nuevo_arbol) == 0, "tamanio");
+	abb_destruir(nuevo_arbol);
+
+}
+
+void prueba_de_eliminar_un_elemento_que_no_existe_en_el_arbol()
+{
+	int numero_52 = 52;
+	int numero_2 = 2;
+	abb_t *nuevo_arbol = abb_crear(comparador);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_52);
+	pa2m_afirmar(abb_quitar(nuevo_arbol, &numero_2) == NULL, "El elemento no se encuentra en el arbol, por lo tanto no se puede eliminar");
+}
 
 
 int main()
@@ -90,9 +117,12 @@ int main()
 	prueba_de_insertar_un_elemento_null_en_un_arbol();
 	prueba_de_insertar_elemento_en_un_arbol_que_es_null();
 
-
-
 	pa2m_nuevo_grupo("\n======================== XXX ========================");
+	pa2m_nuevo_grupo("Pruebas de eliminacion del ABB");
+	prueba_de_eliminar_un_elemento_del_arbol();
+	prueba_de_eliminar_un_elemento_que_no_existe_en_el_arbol();
+
+
 	pa2m_nuevo_grupo("\n======================== XXX ========================");
 
 

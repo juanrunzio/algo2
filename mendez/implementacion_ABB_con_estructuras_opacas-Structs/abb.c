@@ -93,3 +93,24 @@ void abb_destruir(struct abb* abb)
 
 
 }
+
+struct abb *abb_quitar(struct abb *abb, int n)
+{
+  if(abb==NULL)
+    return false;
+  if(n == abb->dato){
+    //encontre el dato, lo elimino
+    if(abb->izq == NULL && abb->der == NULL){
+      //es hoja
+      free(abb);
+      return NULL;
+    }
+    return abb;
+  }
+  if(n > abb->dato)
+    //aca no encontre el dato entonces tengo que hacer
+    abb->der = abb_quitar(abb->der, n);
+  abb->izq = abb_quitar(abb->izq, n);
+  return abb;
+
+}

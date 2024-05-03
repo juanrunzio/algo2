@@ -43,12 +43,15 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
 	if(arbol == 0)
 		return NULL;
+	if(elemento == 0)//re-verrrr  PD:borrar comentarios
+		return NULL;
 	arbol->nodo_raiz = inserto_elemento_y_comparo(arbol, arbol->nodo_raiz, elemento);
 	return arbol;
 }
 
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
+
 	return elemento;
 }
 
