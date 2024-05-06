@@ -49,10 +49,71 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 	return arbol;
 }
 
+nodo_abb_t *buscar_menor_predecesor(nodo_abb_t *raiz)
+{
+	nodo_abb_t *nodo_menor = NULL;
+	if(!raiz->derecha->derecha) {
+		nodo_menor = raiz->derecha;
+		raiz->derecha = nodo_menor->izquierda;
+		return nodo_menor;
+	}
+	return buscar_menor_predecesor(raiz->derecha);
+}
+
+nodo_abb_t *reemplazar_con_menor_predecesor(nodo_abb_t *raiz)
+{
+	nodo_abb_t *aux = NULL;
+	if(!raiz->izquierda->derecha) {
+		aux = raiz->izquierda;
+		aux->derecha = raiz->derecha;
+		return aux;
+	}
+	aux = buscar_menor_predecesor(raiz->izquierda);
+	aux->izquierda = raiz->izquierda;
+	aux->derecha = raiz->derecha;
+	return aux;
+}
+
+nodo_abb_t *saco_al_elemento_comparando(abb_t *arbol, nodo_abb_t *nodo_actual, void *elemento, void **elemento_encontrado)
+{
+	if(nodo_actual == 0)
+		return NULL;
+	int comparacion = arbol->comparador(elemento, nodo_actual->elemento);
+	if(comparacion == 0) {
+		nodo_abb_t *aux = NULL;
+		*elemento_encontrado = nodo_actual->elemento;
+		if(nodo_actual->izquierda && nodo_actual->derecha) {
+			aux = reemplazar_con_menor_predecesor(nodo_actual);
+			free(nodo_actual);
+			arbol->tamanio--;
+			return aux;
+		}
+		if(nodo_actual->izquierda) {
+			aux = nodo_actual->izquierda;
+			free(nodo_actual);
+			arbol->tamanio--;
+			return aux;
+		}
+		aux = nodo_actual->derecha;
+		free(nodo_actual);
+		arbol->tamanio--;
+		return aux;
+	}
+	if(comparacion > 0)
+		nodo_actual->derecha = saco_al_elemento_comparando(arbol, nodo_actual->derecha, elemento, elemento_encontrado);
+	if(comparacion < 0)
+		nodo_actual->izquierda = saco_al_elemento_comparando(arbol, nodo_actual->izquierda, elemento, elemento_encontrado);
+
+	return nodo_actual;
+}
+
 void *abb_quitar(abb_t *arbol, void *elemento)
 {
-
-	return elemento;
+	if(arbol == 0 || abb_vacio(arbol))
+		return NULL;
+	void *encontre_al_elemento = NULL;
+	arbol->nodo_raiz = saco_al_elemento_comparando(arbol, arbol->nodo_raiz, elemento, &encontre_al_elemento);
+	return encontre_al_elemento;
 }
 
 void *abb_buscar(abb_t *arbol, void *elemento)
