@@ -47,8 +47,8 @@ abb_t *abb_insertar(abb_t *arbol, void *elemento)
 {
 	if (arbol == 0)
 		return NULL;
-	if (elemento == 0) //re-verrrr  PD:borrar comentarios
-		return NULL;
+	//if (elemento == 0) //re-verrrr  PD:borrar comentarios
+	//	return NULL;
 	arbol->nodo_raiz =
 		inserto_elemento_y_comparo(arbol, arbol->nodo_raiz, elemento);
 	return arbol;
@@ -128,9 +128,28 @@ void *abb_quitar(abb_t *arbol, void *elemento)
 	return encontre_al_elemento;
 }
 
+void *busco_al_elemento_comparando(abb_t *arbol, nodo_abb_t *nodo_actual,
+				   void *elemento)
+{
+	if (nodo_actual == 0)
+		return NULL;
+
+	int comparacion = arbol->comparador(elemento, nodo_actual->elemento);
+	if (comparacion == 0)
+		return nodo_actual->elemento;
+
+	if (comparacion > 0)
+		return busco_al_elemento_comparando(arbol, nodo_actual->derecha,
+						    elemento);
+	return busco_al_elemento_comparando(arbol, nodo_actual->izquierda,
+					    elemento);
+}
+
 void *abb_buscar(abb_t *arbol, void *elemento)
 {
-	return elemento;
+	if (arbol == 0)
+		return NULL;
+	return busco_al_elemento_comparando(arbol, arbol->nodo_raiz, elemento);
 }
 
 bool abb_vacio(abb_t *arbol)
@@ -142,7 +161,9 @@ bool abb_vacio(abb_t *arbol)
 
 size_t abb_tamanio(abb_t *arbol)
 {
-	return 0;
+	if (arbol == 0)
+		return 0;
+	return arbol->tamanio;
 }
 
 void destruir_post_orden(nodo_abb_t *nodo_actual, void (*destructor)(void *))
@@ -175,14 +196,152 @@ void abb_destruir_todo(abb_t *arbol, void (*destructor)(void *))
 	free(arbol);
 }
 
+void abb_con_cada_elemento_inorden(nodo_abb_t *nodo_actual,
+				   bool (*funcion)(void *, void *), void *aux,
+				   size_t *i, bool *sigo_recorriendo)
+{
+	if (nodo_actual == 0)
+		return;
+
+	abb_con_cada_elemento_inorden(nodo_actual->izquierda, funcion, aux, i,
+				      sigo_recorriendo);
+	if (*sigo_recorriendo) {
+		(*i)++;
+		bool resultado = funcion(nodo_actual->elemento, aux);
+		if (!resultado) {
+			*sigo_recorriendo = false;
+			return;
+		}
+
+		abb_con_cada_elemento_inorden(nodo_actual->derecha, funcion,
+					      aux, i, sigo_recorriendo);
+	}
+}
+
+void abb_con_cada_elemento_preorden(nodo_abb_t *nodo_actual,
+				    bool (*funcion)(void *, void *), void *aux,
+				    size_t *i, bool *sigo_recorriendo)
+
+{
+	if (nodo_actual == 0)
+		return;
+	(*i)++;
+	bool resultado = funcion(nodo_actual->elemento, aux);
+
+	if (!resultado) {
+		*sigo_recorriendo = false;
+		return;
+	}
+
+	abb_con_cada_elemento_preorden(nodo_actual->izquierda, funcion, aux, i,
+				       sigo_recorriendo);
+	if (*sigo_recorriendo)
+		abb_con_cada_elemento_preorden(nodo_actual->derecha, funcion,
+					       aux, i, sigo_recorriendo);
+	return;
+}
+
+void abb_con_cada_elemento_postorden(nodo_abb_t *nodo_actual,
+				     bool (*funcion)(void *, void *), void *aux,
+				     size_t *i, bool *sigo_recorriendo)
+{
+	if (nodo_actual == 0)
+		return;
+
+	if (*sigo_recorriendo == false)
+		return;
+	abb_con_cada_elemento_postorden(nodo_actual->izquierda, funcion, aux, i,
+					sigo_recorriendo);
+
+	if (*sigo_recorriendo == false)
+		return;
+	abb_con_cada_elemento_postorden(nodo_actual->derecha, funcion, aux, i,
+					sigo_recorriendo);
+
+	if (*sigo_recorriendo == false)
+		return;
+	(*i)++;
+	if (!funcion(nodo_actual->elemento, aux))
+		*sigo_recorriendo = false;
+}
+
 size_t abb_con_cada_elemento(abb_t *arbol, abb_recorrido recorrido,
 			     bool (*funcion)(void *, void *), void *aux)
 {
-	return 0;
+	if (!arbol || (recorrido > 2) || !funcion)
+		return 0;
+	size_t i = 0;
+	bool sigo_recorriendo = true;
+	if (recorrido == INORDEN)
+		abb_con_cada_elemento_inorden(arbol->nodo_raiz, funcion, aux,
+					      &i, &sigo_recorriendo);
+	if (recorrido == PREORDEN)
+		abb_con_cada_elemento_preorden(arbol->nodo_raiz, funcion, aux,
+					       &i, &sigo_recorriendo);
+	if (recorrido == POSTORDEN)
+		abb_con_cada_elemento_postorden(arbol->nodo_raiz, funcion, aux,
+						&i, &sigo_recorriendo);
+	return i;
+}
+
+void guardo_al_elemento_del_vector(void **array, void *elemento, size_t *i)
+{
+	array[*i] = elemento;
+	(*i)++;
+}
+
+void recorrido_inorden(nodo_abb_t *nodo_actual, void **array,
+		       size_t tamanio_array, size_t *i)
+{
+	if (nodo_actual == 0)
+		return;
+
+	recorrido_inorden(nodo_actual->izquierda, array, tamanio_array, i);
+	if (*i < tamanio_array)
+		guardo_al_elemento_del_vector(array, nodo_actual->elemento, i);
+
+	if (*i < tamanio_array)
+		recorrido_inorden(nodo_actual->derecha, array, tamanio_array,
+				  i);
+}
+void recorrido_preorden(nodo_abb_t *nodo_actual, void **array,
+			size_t tamanio_array, size_t *i)
+{
+	if (nodo_actual == 0)
+		return;
+	if (*i < tamanio_array)
+		guardo_al_elemento_del_vector(array, nodo_actual->elemento, i);
+	recorrido_preorden(nodo_actual->izquierda, array, tamanio_array, i);
+	if (*i < tamanio_array)
+		recorrido_preorden(nodo_actual->derecha, array, tamanio_array,
+				   i);
+}
+
+void recorrido_postorden(nodo_abb_t *nodo_actual, void **array,
+			 size_t tamanio_array, size_t *i)
+{
+	if (nodo_actual == 0)
+		return;
+	recorrido_postorden(nodo_actual->izquierda, array, tamanio_array, i);
+	if (*i < tamanio_array)
+		recorrido_postorden(nodo_actual->derecha, array, tamanio_array,
+				    i);
+	if (*i < tamanio_array)
+		guardo_al_elemento_del_vector(array, nodo_actual->elemento, i);
 }
 
 size_t abb_recorrer(abb_t *arbol, abb_recorrido recorrido, void **array,
 		    size_t tamanio_array)
 {
-	return 0;
+	if (!arbol || !array)
+		return 0;
+	size_t i = 0;
+	if (recorrido == INORDEN)
+		recorrido_inorden(arbol->nodo_raiz, array, tamanio_array, &i);
+	if (recorrido == PREORDEN)
+		recorrido_preorden(arbol->nodo_raiz, array, tamanio_array, &i);
+	if (recorrido == POSTORDEN)
+		recorrido_postorden(arbol->nodo_raiz, array, tamanio_array, &i);
+
+	return i;
 }

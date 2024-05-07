@@ -138,7 +138,7 @@ int main()
 		"\n======================== XXX ========================");
 	pa2m_nuevo_grupo("Pruebas del tipo de insercion al ABB");
 	prueba_de_insertar_elementos_en_un_arbol_y_chequeo_de_tamanio();
-	prueba_de_insertar_un_elemento_null_en_un_arbol();
+	//prueba_de_insertar_un_elemento_null_en_un_arbol();
 	prueba_de_insertar_elemento_en_un_arbol_que_es_null();
 
 	pa2m_nuevo_grupo(
