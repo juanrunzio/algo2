@@ -1,6 +1,6 @@
 # TDA ABB
 
-## Repositorio de (Nombre Apellido) - (Padrón) - (Mail)
+## Repositorio de (Juan Bautista Oviedo Runzio) - (110164) - (jbauti9@gmail.com/joviedo@fi.uba.ar)
 
 - Para compilar:
 
@@ -15,11 +15,14 @@ línea de ejecución
 ```
 
 - Para ejecutar con valgrind:
+
 ```bash
 línea con valgrind
 ```
+
 ---
-##  Funcionamiento
+
+## Funcionamiento
 
 Explicación de cómo funcionan las estructuras desarrolladas en el TP y el funcionamiento general del mismo.
 
@@ -45,7 +48,6 @@ if(vector == NULL)
 vector_original = vector;
 ```
 
-
 <div align="center">
 <img width="70%" src="img/diagrama2.svg">
 </div>
@@ -53,4 +55,5 @@ vector_original = vector;
 ---
 
 ## Respuestas a las preguntas teóricas
+
 Incluír acá las respuestas a las preguntas del enunciado (si aplica).
