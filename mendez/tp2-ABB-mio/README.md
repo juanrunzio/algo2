@@ -2,22 +2,28 @@
 
 ## Repositorio de (Juan Bautista Oviedo Runzio) - (110164) - (jbauti9@gmail.com/joviedo@fi.uba.ar)
 
+- Para correr todo:
+
+```bash
+make
+```
+
 - Para compilar:
 
 ```bash
-línea de compilación
+gcc -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g src/*.c pruebas_alumno.c -o pruebas_alumno
 ```
 
 - Para ejecutar:
 
 ```bash
-línea de ejecución
+./pruebas_alumno
 ```
 
 - Para ejecutar con valgrind:
 
 ```bash
-línea con valgrind
+valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_alumno
 ```
 
 ---
