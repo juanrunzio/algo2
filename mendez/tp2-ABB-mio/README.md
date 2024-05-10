@@ -95,7 +95,7 @@ La función `abb_insertar` se encarga de añadir nuevos elementos al árbol bina
 <img width="90%" src="img/insertar.jpg">
 </div>
 
---
+#
 
 _Eliminación_: Como se mencionó previamente, al eliminar un nodo se adoptó la convención de reemplazarlo por su menor sucesor inorden. Durante este proceso, se lleva a cabo una comparación similar a la realizada en la inserción. Sin embargo, en este caso, al encontrar el elemento a eliminar, se detiene la búsqueda. Luego, se verifica si el nodo a eliminar tiene hijos. En caso de no tenerlos (es decir, ser nodos hoja), simplemente se libera la memoria del nodo.
 
@@ -110,6 +110,8 @@ Ejemplo: al eliminar el nodo raíz que contiene el valor 30.
 <div align="center">
 <img width="90%" src="img/eliminar.jpg">
 </div>
+
+#
 
 ### Por ejemplo:
 
