@@ -92,7 +92,23 @@ nodo_abb_t *inserto_elemento_y_comparo(abb_t *arbol, nodo_abb_t *nodo_actual, vo
 La función `abb_insertar` se encarga de añadir nuevos elementos al árbol binario de búsqueda. Utiliza una función auxiliar recursiva llamada `inserto_elemento_y_comparo`. En cada llamada recursiva, se verifica si el nodo actual es nulo. En caso afirmativo, se reserva memoria para el nuevo nodo, se establecen los punteros de los hijos como nulos y se asigna el puntero al nuevo elemento. Si el nodo actual no es nulo, se compara el elemento a insertar con el elemento del nodo actual para determinar hacia qué subárbol continuar. Luego, se llama recursivamente a la misma función, modificando el nodo actual por el nodo izquierdo o derecho, según corresponda. Es importante destacar que el valor devuelto por esta función debe asignarse al nodo que se pasa como parámetro. Por ejemplo: `hijo_izquierdo = función(hijo_izquierdo...)`, para así guardar los cambios realizados en los hijos y continuar conectando los nodos.
 
 <div align="center">
-<img width="70%" src="img/insertar.jpg">
+<img width="90%" src="img/insertar.jpg">
+</div>
+
+--
+
+_Eliminación_: Como se mencionó previamente, al eliminar un nodo se adoptó la convención de reemplazarlo por su menor sucesor inorden. Durante este proceso, se lleva a cabo una comparación similar a la realizada en la inserción. Sin embargo, en este caso, al encontrar el elemento a eliminar, se detiene la búsqueda. Luego, se verifica si el nodo a eliminar tiene hijos. En caso de no tenerlos (es decir, ser nodos hoja), simplemente se libera la memoria del nodo.
+
+Si el nodo a eliminar tiene un solo hijo, se guarda una referencia a ese hijo en un auxiliar. Luego, se libera la memoria del nodo a eliminar y se retorna el auxiliar, el cual se conecta al padre del nodo eliminado.
+
+Cuando el nodo a eliminar tiene dos hijos, se busca su menor predecesor inorden. Este proceso implica tomar ciertas consideraciones. En primer lugar, se verifica si el hijo izquierdo del nodo a eliminar tiene un hijo derecho. Si no lo tiene, se reemplaza el nodo a eliminar por su hijo izquierdo, y el hijo derecho del nodo a eliminar se convierte en el hijo derecho del nodo que lo reemplaza.
+
+En el caso de que el hijo izquierdo tenga un hijo derecho, se busca el último nodo en el camino de la derecha para encontrar el menor más cercano. Una vez encontrado, se guarda una referencia a este nodo (predecesor inorden). El hijo izquierdo del predecesor inorden se asigna como hijo derecho del padre del predecesor inorden. Luego, los hijos del nodo a eliminar se asignan al predecesor inorden. Finalmente, se libera la memoria del nodo a eliminar y se retorna el reemplazo para que sea asignado como hijo del nodo que llamó a la función de eliminar.
+
+Ejemplo: al eliminar el nodo raíz que contiene el valor 30.
+
+<div align="center">
+<img width="90%" src="img/eliminar.jpg">
 </div>
 
 ### Por ejemplo:
