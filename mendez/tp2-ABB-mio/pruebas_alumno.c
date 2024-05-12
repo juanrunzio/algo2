@@ -305,6 +305,152 @@ void itero_hasta_encontrar_numero_postorden()
 	abb_destruir(nuevo_arbol);
 }
 
+void imprimir_array(void **array, size_t tope)
+{
+	size_t i = 0;
+	while (i < tope) {
+		int *e = array[i];
+		printf("%i ", *e);
+		i++;
+	}
+}
+void guardo_elementos_en_array_inorden()
+{
+	int numero_13 = 13;
+	int numero_21 = 21;
+	int numero_5 = 5;
+	int numero_2 = 2;
+	int numero_7 = 7;
+	int numero_19 = 19;
+	int numero_28 = 28;
+	abb_t *nuevo_arbol = abb_crear(comparador);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_13);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_21);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_5);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_2);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_7);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_19);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
+	void **array_1 = malloc(7 * sizeof(void *));
+	void **array_2 = malloc(5 * sizeof(void *));
+	void **array_3 = malloc(10 * sizeof(void *));
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, INORDEN, array_1, 7) == 7,
+		     "Guardo 7 elementos porque era el tamanio del array");
+	printf("Los elementos guardados inorden son: ");
+	imprimir_array(array_1, 7);
+	printf("\n");
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, INORDEN, array_2, 5) == 5,
+		     "Guardo 5 elementos porque era el tamanio del array");
+	printf("Los elementos guardados inorden son: ");
+	imprimir_array(array_2, 5);
+	printf("\n");
+	pa2m_afirmar(
+		abb_recorrer(nuevo_arbol, INORDEN, array_3, 10) == 7,
+		"Guardo 7 elementos porque son todos los elementos del arbol y el tamanio del array es mayor");
+	printf("Los elementos guardados inorden son: ");
+	imprimir_array(array_3, 7);
+	printf("\n");
+	free(array_1);
+	free(array_2);
+	free(array_3);
+	abb_destruir(nuevo_arbol);
+}
+
+void guardo_elementos_en_array_preorden()
+{
+	int numero_13 = 13;
+	int numero_21 = 21;
+	int numero_5 = 5;
+	int numero_2 = 2;
+	int numero_7 = 7;
+	int numero_19 = 19;
+	int numero_28 = 28;
+	abb_t *nuevo_arbol = abb_crear(comparador);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_13);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_21);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_5);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_2);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_7);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_19);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
+	void **array_1 = malloc(7 * sizeof(void *));
+	void **array_2 = malloc(5 * sizeof(void *));
+	void **array_3 = malloc(10 * sizeof(void *));
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, PREORDEN, array_1, 7) == 7,
+		     "Guardo 7 elementos porque era el tamanio del array");
+	printf("Los elementos guardados preorden son: ");
+	imprimir_array(array_1, 7);
+	printf("\n");
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, PREORDEN, array_2, 5) == 5,
+		     "Guardo 5 elementos porque era el tamanio del array");
+	printf("Los elementos guardados preorden son: ");
+	imprimir_array(array_2, 5);
+	printf("\n");
+	pa2m_afirmar(
+		abb_recorrer(nuevo_arbol, PREORDEN, array_3, 10) == 7,
+		"Guardo 7 elementos porque son todos los elementos del arbol y el tamanio del array es mayor");
+	printf("Los elementos guardados preorden son: ");
+	imprimir_array(array_3, 7);
+	printf("\n");
+	free(array_1);
+	free(array_2);
+	free(array_3);
+	abb_destruir(nuevo_arbol);
+}
+
+void guardo_elementos_en_array_postorden()
+{
+	int numero_13 = 13;
+	int numero_21 = 21;
+	int numero_5 = 5;
+	int numero_2 = 2;
+	int numero_7 = 7;
+	int numero_19 = 19;
+	int numero_28 = 28;
+	abb_t *nuevo_arbol = abb_crear(comparador);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_13);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_21);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_5);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_2);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_7);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_19);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
+	void **array_1 = malloc(7 * sizeof(void *));
+	void **array_2 = malloc(5 * sizeof(void *));
+	void **array_3 = malloc(10 * sizeof(void *));
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, POSTORDEN, array_1, 7) == 7,
+		     "Guardo 7 elementos porque era el tamanio del array");
+	printf("Los elementos guardados postorden son: ");
+	imprimir_array(array_1, 7);
+	printf("\n");
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, POSTORDEN, array_2, 5) == 5,
+		     "Guardo 5 elementos porque era el tamanio del array");
+	printf("Los elementos guardados postorden son: ");
+	imprimir_array(array_2, 5);
+	printf("\n");
+	pa2m_afirmar(
+		abb_recorrer(nuevo_arbol, POSTORDEN, array_3, 10) == 7,
+		"Guardo 7 elementos porque son todos los elementos del arbol y el tamanio del array es mayor");
+	printf("Los elementos guardados postorden son: ");
+	imprimir_array(array_3, 7);
+	printf("\n");
+	free(array_1);
+	free(array_2);
+	free(array_3);
+	abb_destruir(nuevo_arbol);
+}
+void pruebas_con_un_array_que_es_null_o_un_arbol_null()
+{
+	abb_t *nuevo_arbol = abb_crear(comparador);
+	void **array_1 = malloc(7 * sizeof(void *));
+	pa2m_afirmar(abb_recorrer(NULL, POSTORDEN, array_1, 7) == 0,
+		     "No puedo recorrer arbol NULL");
+	pa2m_afirmar(abb_recorrer(nuevo_arbol, POSTORDEN, NULL, 7) == 0,
+		     "No puedo recorrer arbol con array NULL");
+	free(array_1);
+	abb_destruir(nuevo_arbol);
+}
+
 int main()
 {
 	pa2m_nuevo_grupo(
@@ -349,6 +495,15 @@ int main()
 	itero_hasta_encontrar_numero_inorden();
 	itero_hasta_encontrar_numero_preorden();
 	itero_hasta_encontrar_numero_postorden();
+
+	pa2m_nuevo_grupo(
+		"\n======================== XXX ========================");
+	pa2m_nuevo_grupo(
+		"Pruebas de guardar elementos en el array con distintos recorridos (INORDEN, PREORDEN, POSTORDEN y no adecuados)");
+	guardo_elementos_en_array_inorden();
+	guardo_elementos_en_array_preorden();
+	guardo_elementos_en_array_postorden();
+	pruebas_con_un_array_que_es_null_o_un_arbol_null();
 
 	return pa2m_mostrar_reporte();
 }
