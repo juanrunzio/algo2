@@ -16,6 +16,13 @@ int comparador(void *elemento_1, void *elemento_2)
 	int *e_2 = elemento_2;
 	return (int)(*e_1 - *e_2);
 }
+bool imprimir_numeros(void *elemento_1, void *elemento_2)
+{
+	int *e_1 = elemento_1;
+	int *e_2 = elemento_2;
+	printf("%i ", *e_1);
+	return (*e_1 != *e_2);
+}
 
 void prueba_de_crear_un_arbol_con_el_comparador_null()
 {
