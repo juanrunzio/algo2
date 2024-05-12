@@ -204,32 +204,32 @@ void no_es_posible_iterar_con_una_funcion_null()
 
 void itero_hasta_encontrar_numero_inorden()
 {
-	int numero_10 = 10;
-	int numero_20 = 20;
+	int numero_13 = 13;
+	int numero_21 = 21;
 	int numero_5 = 5;
-	int numero_3 = 3;
+	int numero_2 = 2;
 	int numero_7 = 7;
-	int numero_15 = 15;
-	int numero_25 = 25;
+	int numero_19 = 19;
+	int numero_28 = 28;
 	abb_t *nuevo_arbol = abb_crear(comparador);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_10);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_20);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_13);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_21);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_5);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_3);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_2);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_7);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_15);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_25);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_19);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, INORDEN,
-					   imprimir_numeros, &numero_25) == 7,
+					   imprimir_numeros, &numero_28) == 7,
 		     "Itero 7 veces hasta encontrar el 25");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, INORDEN,
-					   imprimir_numeros, &numero_10) == 4,
+					   imprimir_numeros, &numero_13) == 4,
 		     "Itero 4 veces hasta encontrar el 10");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, INORDEN,
-					   imprimir_numeros, &numero_15) == 5,
+					   imprimir_numeros, &numero_19) == 5,
 		     "Itero 5 veces hasta encontrar el 15");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, INORDEN,
-					   imprimir_numeros, &numero_20) == 6,
+					   imprimir_numeros, &numero_21) == 6,
 		     "Itero 6 veces hasta encontrar el 20");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, INORDEN,
 					   imprimir_numeros, &numero_5) == 2,
@@ -238,32 +238,32 @@ void itero_hasta_encontrar_numero_inorden()
 }
 void itero_hasta_encontrar_numero_preorden()
 {
-	int numero_10 = 10;
-	int numero_20 = 20;
+	int numero_13 = 13;
+	int numero_21 = 21;
 	int numero_5 = 5;
-	int numero_3 = 3;
+	int numero_2 = 2;
 	int numero_7 = 7;
-	int numero_15 = 15;
-	int numero_25 = 25;
+	int numero_19 = 19;
+	int numero_28 = 28;
 	abb_t *nuevo_arbol = abb_crear(comparador);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_10);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_20);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_13);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_21);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_5);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_3);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_2);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_7);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_15);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_25);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_19);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, PREORDEN,
-					   imprimir_numeros, &numero_25) == 7,
+					   imprimir_numeros, &numero_28) == 7,
 		     "Itero 7 veces hasta encontrar el 25");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, PREORDEN,
-					   imprimir_numeros, &numero_10) == 1,
+					   imprimir_numeros, &numero_13) == 1,
 		     "Itero 1 veces hasta encontrar el 10");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, PREORDEN,
-					   imprimir_numeros, &numero_15) == 6,
+					   imprimir_numeros, &numero_19) == 6,
 		     "Itero 6 veces hasta encontrar el 15");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, PREORDEN,
-					   imprimir_numeros, &numero_20) == 5,
+					   imprimir_numeros, &numero_21) == 5,
 		     "Itero 5 veces hasta encontrar el 20");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, PREORDEN,
 					   imprimir_numeros, &numero_5) == 2,
@@ -272,32 +272,32 @@ void itero_hasta_encontrar_numero_preorden()
 }
 void itero_hasta_encontrar_numero_postorden()
 {
-	int numero_10 = 10;
-	int numero_20 = 20;
+	int numero_13 = 13;
+	int numero_21 = 21;
 	int numero_5 = 5;
-	int numero_3 = 3;
+	int numero_2 = 2;
 	int numero_7 = 7;
-	int numero_15 = 15;
-	int numero_25 = 25;
+	int numero_19 = 19;
+	int numero_28 = 28;
 	abb_t *nuevo_arbol = abb_crear(comparador);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_10);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_20);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_13);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_21);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_5);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_3);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_2);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_7);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_15);
-	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_25);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_19);
+	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, POSTORDEN,
-					   imprimir_numeros, &numero_25) == 5,
+					   imprimir_numeros, &numero_28) == 5,
 		     "Itero 5 veces hasta encontrar el 25");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, POSTORDEN,
-					   imprimir_numeros, &numero_10) == 7,
+					   imprimir_numeros, &numero_13) == 7,
 		     "Itero 7 veces hasta encontrar el 10");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, POSTORDEN,
-					   imprimir_numeros, &numero_15) == 4,
+					   imprimir_numeros, &numero_19) == 4,
 		     "Itero 4 veces hasta encontrar el 15");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, POSTORDEN,
-					   imprimir_numeros, &numero_20) == 6,
+					   imprimir_numeros, &numero_21) == 6,
 		     "Itero 5 veces hasta encontrar el 20");
 	pa2m_afirmar(abb_con_cada_elemento(nuevo_arbol, POSTORDEN,
 					   imprimir_numeros, &numero_5) == 3,
@@ -345,5 +345,10 @@ int main()
 
 	pa2m_nuevo_grupo(
 		"\n======================== XXX ========================");
+	pa2m_nuevo_grupo("Pruebas de iterador (INORDEN, PREORDEN, POSTORDEN)");
+	itero_hasta_encontrar_numero_inorden();
+	itero_hasta_encontrar_numero_preorden();
+	itero_hasta_encontrar_numero_postorden();
+
 	return pa2m_mostrar_reporte();
 }
