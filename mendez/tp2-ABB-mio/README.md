@@ -58,10 +58,10 @@ Los árboles binarios son estructuras en las que cada nodo puede tener 0, 1 o 2 
 
 El concepto de árbol binario de búsqueda extiende la idea del árbol binario al introducir la noción de comparación entre los nodos y su padre. En un árbol binario de búsqueda, se establece que el hijo izquierdo es menor que su padre, mientras que el hijo derecho es mayor. Esta relación de ordenamiento permite una búsqueda más eficiente, similar a la búsqueda binaria, lo que resulta en una complejidad de búsqueda logarítmica en el árbol.
 
-En los ejemplos podemos obserbar algunas diferencias entre los arboles mencionados:
+En los siguientes ejemplos podemos obserbar algunas diferencias entre los arboles mencionados:
 
 <div align="center">
-<img width="90%" src="img/ejDeArboles.jpg">
+<img width="100%" src="img/ejDeArboles.jpg">
 </div>
 
 ---
