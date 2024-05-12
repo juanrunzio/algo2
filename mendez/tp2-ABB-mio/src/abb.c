@@ -2,7 +2,6 @@
 #include "abb_estructura_privada.h"
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdio.h> //borrar
 
 abb_t *abb_crear(abb_comparador comparador)
 {

@@ -336,18 +336,18 @@ void guardo_elementos_en_array_inorden()
 	void **array_3 = malloc(10 * sizeof(void *));
 	pa2m_afirmar(abb_recorrer(nuevo_arbol, INORDEN, array_1, 7) == 7,
 		     "Guardo 7 elementos porque era el tamanio del array");
-	printf("Los elementos guardados inorden son: ");
+	printf("Los elementos guardados inorden son los siguientes: ");
 	imprimir_array(array_1, 7);
 	printf("\n");
 	pa2m_afirmar(abb_recorrer(nuevo_arbol, INORDEN, array_2, 5) == 5,
 		     "Guardo 5 elementos porque era el tamanio del array");
-	printf("Los elementos guardados inorden son: ");
+	printf("Los elementos guardados inorden son los siguientes: ");
 	imprimir_array(array_2, 5);
 	printf("\n");
 	pa2m_afirmar(
 		abb_recorrer(nuevo_arbol, INORDEN, array_3, 10) == 7,
 		"Guardo 7 elementos porque son todos los elementos del arbol y el tamanio del array es mayor");
-	printf("Los elementos guardados inorden son: ");
+	printf("Los elementos guardados inorden son los siguientes: ");
 	imprimir_array(array_3, 7);
 	printf("\n");
 	free(array_1);
@@ -378,18 +378,18 @@ void guardo_elementos_en_array_preorden()
 	void **array_3 = malloc(10 * sizeof(void *));
 	pa2m_afirmar(abb_recorrer(nuevo_arbol, PREORDEN, array_1, 7) == 7,
 		     "Guardo 7 elementos porque era el tamanio del array");
-	printf("Los elementos guardados preorden son: ");
+	printf("Los elementos guardados preorden son los siguientes: ");
 	imprimir_array(array_1, 7);
 	printf("\n");
 	pa2m_afirmar(abb_recorrer(nuevo_arbol, PREORDEN, array_2, 5) == 5,
 		     "Guardo 5 elementos porque era el tamanio del array");
-	printf("Los elementos guardados preorden son: ");
+	printf("Los elementos guardados preorden son los siguientes: ");
 	imprimir_array(array_2, 5);
 	printf("\n");
 	pa2m_afirmar(
 		abb_recorrer(nuevo_arbol, PREORDEN, array_3, 10) == 7,
 		"Guardo 7 elementos porque son todos los elementos del arbol y el tamanio del array es mayor");
-	printf("Los elementos guardados preorden son: ");
+	printf("Los elementos guardados preorden son los siguientes: ");
 	imprimir_array(array_3, 7);
 	printf("\n");
 	free(array_1);
@@ -420,18 +420,18 @@ void guardo_elementos_en_array_postorden()
 	void **array_3 = malloc(10 * sizeof(void *));
 	pa2m_afirmar(abb_recorrer(nuevo_arbol, POSTORDEN, array_1, 7) == 7,
 		     "Guardo 7 elementos porque era el tamanio del array");
-	printf("Los elementos guardados postorden son: ");
+	printf("Los elementos guardados postorden son los siguientes: ");
 	imprimir_array(array_1, 7);
 	printf("\n");
 	pa2m_afirmar(abb_recorrer(nuevo_arbol, POSTORDEN, array_2, 5) == 5,
 		     "Guardo 5 elementos porque era el tamanio del array");
-	printf("Los elementos guardados postorden son: ");
+	printf("Los elementos guardados postorden son los siguientes: ");
 	imprimir_array(array_2, 5);
 	printf("\n");
 	pa2m_afirmar(
 		abb_recorrer(nuevo_arbol, POSTORDEN, array_3, 10) == 7,
 		"Guardo 7 elementos porque son todos los elementos del arbol y el tamanio del array es mayor");
-	printf("Los elementos guardados postorden son: ");
+	printf("Los elementos guardados postorden son los siguientes: ");
 	imprimir_array(array_3, 7);
 	printf("\n");
 	free(array_1);
