@@ -92,7 +92,7 @@ void prueba_de_eliminar_un_elemento_del_arbol()
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_28);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_33);
 	nuevo_arbol = abb_insertar(nuevo_arbol, &numero_4);
-	//cambiar mnsj
+
 	pa2m_afirmar(abb_quitar(nuevo_arbol, &numero_4) == &numero_4,
 		     "Elimino el ultimo elemento insertado");
 	pa2m_afirmar(abb_quitar(nuevo_arbol, &numero_33) == &numero_33,
