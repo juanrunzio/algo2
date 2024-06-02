@@ -9,9 +9,18 @@ typedef struct nodo_abb {
     struct nodo_abb *derecha;
 } nodo_abb_t;
 
-struct TP {
+struct tp {
     nodo_abb_t *raiz;
 };
+
+static char *duplicar_cadena(const char *cadena) {
+    size_t longitud = strlen(cadena) + 1;
+    char *nueva_cadena = (char *)malloc(longitud);
+    if (nueva_cadena) {
+        memcpy(nueva_cadena, cadena, longitud);
+    }
+    return nueva_cadena;
+}
 
 static char *extraigo_cada_campo_separado(char **str, const char *delim) {
     char *start = *str;
@@ -31,7 +40,7 @@ static struct pokemon_info *crear_pokemon(const char *linea) {
         return NULL;
     }
 
-    char *resto = strdup(linea);
+    char *resto = duplicar_cadena(linea);
     if (!resto) {
         free(pokemon);
         return NULL;
@@ -43,7 +52,7 @@ static struct pokemon_info *crear_pokemon(const char *linea) {
         free(pokemon);
         return NULL;
     }
-    pokemon->nombre = strdup(campo_del_archivo);
+    pokemon->nombre = duplicar_cadena(campo_del_archivo);
 
     campo_del_archivo = extraigo_cada_campo_separado(&resto, ",");
     if (!campo_del_archivo) {
