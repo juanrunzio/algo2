@@ -89,7 +89,7 @@ static nodo_abb_t *insertar_pokemon(nodo_abb_t *raiz, struct pokemon_info *pokem
 
 
 TP *tp_crear(const char *nombre_archivo) {
-    FILE *archivo = fopen(nombre_archivo, "r");
+    FILE *archivo = fopen("pokemones.txt", "r");
     if (!archivo) {
         return NULL;
     }
