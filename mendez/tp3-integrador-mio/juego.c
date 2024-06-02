@@ -1,6 +1,8 @@
 #include "src/tp.h"
 
 
+
+#include "src/tp.c"
 #include <stdio.h>
 #include <stdlib.h>
 
