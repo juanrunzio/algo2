@@ -1,5 +1,9 @@
 #include "src/tp.h"
 
+
+#include <stdio.h>
+#include <stdlib.h>
+
 int main(int argc, char const *argv[])
 {
 	//Se recomienda pasar el archivo de texto con los pokemon como argumento al ejecutar el programa
