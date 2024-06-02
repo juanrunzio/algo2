@@ -6,15 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(int argc, char const *argv[])
-{
-	//Se recomienda pasar el archivo de texto con los pokemon como argumento al ejecutar el programa
-
-	//crear el juego
-	tp_crear(argv[1]);
-	//mostrar menues
-	//correr carrera
-	//etc
 
 
 	//-----------------test-----------------------
@@ -39,6 +30,28 @@ void imprimir_pokemons(TP *tp) {
 }
 
 //-----------------test-----------------------
+
+int main(int argc, char const *argv[])
+{
+	//Se recomienda pasar el archivo de texto con los pokemon como argumento al ejecutar el programa
+
+	//crear el juego
+	tp_crear(argv[1]);
+	//mostrar menues
+	//correr carrera
+	//etc
+
+	//test
+	TP *tp = tp_crear("pokemones.txt");
+	if (tp == NULL) {
+		printf("Error al cargar los pokémon.\n");
+		return 1;
+	}
+
+	imprimir_pokemons(tp);
+
+	tp_destruir(tp);
+
 
 	return 0;
 }
