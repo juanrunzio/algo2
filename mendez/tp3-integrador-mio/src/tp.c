@@ -202,7 +202,19 @@ char *tp_tiempo_por_obstaculo(TP *tp, enum TP_JUGADOR jugador)
 	return NULL;
 }
 
-void tp_destruir(TP *tp)
-{
-	return;
+static void liberar_nodo(nodo_abb_t *nodo) {
+    if (nodo != NULL) {
+        liberar_nodo(nodo->izquierda);
+        liberar_nodo(nodo->derecha);
+        free(nodo->pokemon->nombre);
+        free(nodo->pokemon);
+        free(nodo);
+    }
+}
+
+void tp_destruir(TP *tp) {
+    if (tp != NULL) {
+        liberar_nodo(tp->raiz);
+        free(tp);
+    }
 }
