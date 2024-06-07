@@ -17,6 +17,18 @@ struct hash {
 	size_t capacidad;
 };
 
+size_t funcion_de_hash(char *clave, size_t capacidad)
+{
+	unsigned long hash = 5381;
+	int c = *clave;
+	while (c) {
+		hash = ((hash << 5) + hash) + (unsigned long)c;
+		c = *clave++;
+	}
+
+	return (size_t)hash % capacidad;
+}
+
 hash_t *hash_crear(size_t capacidad)
 {
 	size_t nueva_capacidad = 0;
@@ -38,18 +50,6 @@ hash_t *hash_crear(size_t capacidad)
 	}
 	nuevo_hash->array = nuevo_array;
 	return nuevo_hash;
-}
-
-size_t funcion_de_hash(char *clave, size_t capacidad)
-{
-	unsigned long hash = 5381;
-	int c = *clave;
-	while (c) {
-		hash = ((hash << 5) + hash) + (unsigned long)c;
-		c = *clave++;
-	}
-
-	return (size_t)hash % capacidad;
 }
 
 struct nodo *insertar_nodo(struct nodo *nodo, const char *clave, void *elemento,
@@ -244,5 +244,22 @@ size_t hash_con_cada_clave(hash_t *hash,
 			   bool (*f)(const char *clave, void *valor, void *aux),
 			   void *aux)
 {
-	return 0;
+	if (!hash || !f)
+		return 0;
+	struct nodo *nodo_actual = NULL;
+	size_t veces = 0;
+	bool resultado = true;
+	for (int i = 0; i < hash->capacidad; i++) {
+		nodo_actual = hash->array[i];
+		while (nodo_actual) {
+			resultado = f(nodo_actual->clave, nodo_actual->elemento,
+				      aux);
+			veces++;
+			if (!resultado)
+				return veces;
+			nodo_actual = nodo_actual->siguiente;
+		}
+	}
+
+	return veces;
 }

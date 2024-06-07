@@ -145,8 +145,9 @@ void elimino_elementos()
 	resultado = hash_quitar(nuevo_hash, "w");
 	pa2m_afirmar(resultado == NULL,
 		     "No encuentra el elemento, devuelve NULL");
-	pa2m_afirmar(hash_cantidad(nuevo_hash) == 9,
-		     "La cantidad de elementos sigue siendo la misma");
+	pa2m_afirmar(
+		hash_cantidad(nuevo_hash) == 9,
+		"La cantidad de elementos no fue modificada, por lo tanto sigue siendo la misma");
 
 	for (int i = 1; i < 10; i++)
 		hash_quitar(nuevo_hash, claves[i]);
@@ -183,7 +184,7 @@ int main()
 	pa2m_nuevo_grupo(
 		"4_Pruebas de insercion de claves repetidas en el hash");
 	reemplazo_en_hash();
-	pa2m_nuevo_grupo("5_Pruebas de insercion de 100 elementos");
+	pa2m_nuevo_grupo("5_Pruebas de insercion de varios elementos(100)");
 	inserto_10_elementos_10_veces();
 	pa2m_nuevo_grupo("6_Pruebas de eliminacion de elementos en el hash");
 	elimino_elementos();
