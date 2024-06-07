@@ -4,32 +4,35 @@
 
 # TDA HASH
 
-## Repositorio de (Nombre Apellido) - (Padrón) - (Mail)
+## Repositorio de (Juan Bautista Oviedo Runzio) - (110164) - (jbauti9@gmail.com/joviedo@fi.uba.ar)
+
+- Para correr todo:
+
+```bash
+make
+```
 
 - Para compilar:
 
 ```bash
-línea de compilación
+gcc -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g src/*.c pruebas_alumno.c -o pruebas_alumno
 ```
 
 - Para ejecutar:
 
 ```bash
-línea de ejecución
+./pruebas_alumno
 ```
 
 - Para ejecutar con valgrind:
+
 ```bash
-línea con valgrind
+valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_alumno
 ```
+
 ---
-##  Funcionamiento
 
-Explicación de cómo funcionan las estructuras desarrolladas en el TP y el funcionamiento general del mismo.
-
-Aclarar en esta parte todas las decisiones que se tomaron al realizar el TP, cosas que no se aclaren en el enunciado, fragmentos de código que necesiten explicación extra, etc.
-
-Incluír **EN TODOS LOS TPS** los diagramas relevantes al problema (mayormente diagramas de memoria para explicar las estructuras, pero se pueden utilizar otros diagramas si es necesario).
+## Funcionamiento
 
 ### Por ejemplo:
 
@@ -49,7 +52,6 @@ if(vector == NULL)
 vector_original = vector;
 ```
 
-
 <div align="center">
 <img width="70%" src="img/diagrama2.svg">
 </div>
@@ -57,4 +59,5 @@ vector_original = vector;
 ---
 
 ## Respuestas a las preguntas teóricas
+
 Incluír acá las respuestas a las preguntas del enunciado (si aplica).
