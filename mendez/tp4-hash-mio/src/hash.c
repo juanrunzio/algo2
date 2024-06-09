@@ -13,12 +13,13 @@ struct hash {
 };
 
 size_t funcion_de_hash(char *clave, size_t capacidad) {
-  size_t hash = 0;
-  while (*clave) {
-    hash = (hash * 31 + (unsigned char)*clave) % capacidad;
-    clave++;
-  }
-  return hash;
+  size_t longitud_string = strlen(clave);
+  if (longitud_string == 0)
+    return longitud_string;
+
+  size_t hash = longitud_string * clave[longitud_string - 1] + 31 * clave[0] +
+                7 * clave[longitud_string / 2] - 1;
+  return hash % capacidad;
 }
 char *funcion_para_duplicar_una_cadena(const char *s) {
   size_t len = strlen(s);
