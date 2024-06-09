@@ -135,7 +135,6 @@ void *hash_quitar(hash_t *hash, const char *clave) {
       hash->valores[pos] = NULL;
       hash->cantidad--;
 
-      // Reorganizar la tabla
       size_t next_pos = (pos + 1) % hash->capacidad;
       while (hash->claves[next_pos] != NULL) {
         char *temp_clave = hash->claves[next_pos];
@@ -158,7 +157,7 @@ void *hash_quitar(hash_t *hash, const char *clave) {
   return NULL;
 }
 
-void *hash_obtener(hash_t *hash, const char *clave) {
+void *hash_obtener(const hash_t *hash, const char *clave) {
   if (!hash || !clave)
     return NULL;
   size_t pos = funcion_de_hash(clave, hash->capacidad);
