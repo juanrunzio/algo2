@@ -177,7 +177,8 @@ void obtengo_elementos() {
 
   char *resultado = hash_obtener(nuevo_hash, "a");
 
-  pa2m_afirmar(strcmp(resultado, "valor") == 0, "Devuelve el elemento buscado");
+  pa2m_afirmar(strcmp(resultado, "valorX") == 0,
+               "Devuelve el elemento buscado");
   pa2m_afirmar(hash_cantidad(nuevo_hash) == 10,
                "La cantidad de elementos sigue siendo la misma");
 
