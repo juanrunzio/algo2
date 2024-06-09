@@ -15,10 +15,18 @@ struct hash {
 size_t funcion_de_hash(char *clave, size_t capacidad) {
   size_t hash = 0;
   while (*clave) {
-    hash = (hash * 31 + *clave) % capacidad;
+    hash = (hash * 31 + (unsigned char)*clave) % capacidad;
     clave++;
   }
   return hash;
+}
+char *funcion_para_duplicar_una_cadena(const char *s) {
+  size_t len = strlen(s);
+  char *d = malloc(len + 1);
+  if (d == NULL)
+    return NULL;
+  strcpy(d, s);
+  return d;
 }
 
 hash_t *hash_crear(size_t capacidad) {
@@ -43,8 +51,8 @@ hash_t *hash_crear(size_t capacidad) {
   return hash;
 }
 
-static bool rehash(hash_t *hash) {
-  size_t nueva_capacidad = hash->capacidad * 2;
+bool rehash(hash_t *hash) {
+  size_t nueva_capacidad = siguiente_primo(hash->capacidad * 2);
   char **nuevas_claves = calloc(nueva_capacidad, sizeof(char *));
   void **nuevos_valores = calloc(nueva_capacidad, sizeof(void *));
   if (!nuevas_claves || !nuevos_valores) {
@@ -54,8 +62,8 @@ static bool rehash(hash_t *hash) {
   }
 
   for (size_t i = 0; i < hash->capacidad; i++) {
-    if (hash->claves[i]) {
-      size_t nueva_pos = funcion_hash(hash->claves[i], nueva_capacidad);
+    if (hash->claves[i] != NULL) {
+      size_t nueva_pos = funcion_de_hash(hash->claves[i], nueva_capacidad);
       while (nuevas_claves[nueva_pos] != NULL) {
         nueva_pos = (nueva_pos + 1) % nueva_capacidad;
       }
@@ -66,9 +74,11 @@ static bool rehash(hash_t *hash) {
 
   free(hash->claves);
   free(hash->valores);
+
   hash->claves = nuevas_claves;
   hash->valores = nuevos_valores;
   hash->capacidad = nueva_capacidad;
+
   return true;
 }
 
@@ -100,7 +110,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
       *anterior = hash->valores[pos];
     hash->valores[pos] = elemento;
   } else {
-    hash->claves[pos] = strdup(clave);
+    hash->claves[pos] = funcion_para_duplicar_una_cadena(clave);
     hash->valores[pos] = elemento;
     hash->cantidad++;
     if (anterior)
