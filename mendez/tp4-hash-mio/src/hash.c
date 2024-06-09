@@ -91,7 +91,7 @@ hash_t *hash_insertar(hash_t *hash, const char *clave, void *elemento,
       return NULL;
   }
 
-  size_t pos = funcion_hash(clave, hash->capacidad);
+  size_t pos = funcion_de_hash(clave, hash->capacidad);
   size_t original_pos = pos;
   bool encontrado = false;
 
@@ -124,7 +124,7 @@ void *hash_quitar(hash_t *hash, const char *clave) {
   if (!hash || !clave)
     return NULL;
 
-  size_t pos = funcion_hash(clave, hash->capacidad);
+  size_t pos = funcion_de_hash(clave, hash->capacidad);
   size_t original_pos = pos;
 
   while (hash->claves[pos] != NULL) {
@@ -161,7 +161,7 @@ void *hash_quitar(hash_t *hash, const char *clave) {
 void *hash_obtener(hash_t *hash, const char *clave) {
   if (!hash || !clave)
     return NULL;
-  size_t pos = funcion_hash(clave, hash->capacidad);
+  size_t pos = funcion_de_hash(clave, hash->capacidad);
   size_t original_pos = pos;
   while (hash->claves[pos] != NULL) {
     if (strcmp(hash->claves[pos], clave) == 0)
