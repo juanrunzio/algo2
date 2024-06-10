@@ -38,7 +38,7 @@ El objetivo del trabajo práctico es implementar un diccionario utilizando el TD
 
 En contraste, el HASH cerrado almacena el elemento o el puntero al elemento dentro de la tabla. Dado que solo puede haber un elemento por posición, cuando se generan colisiones se busca la siguiente posición libre más cercana, haciendo que la posición dada por la función hash no sea definitiva. A esto se le conoce como direccionamiento abierto.
 
-Para la implementación se utilizó un hash abierto con direccionamiento cerrado, donde la tabla es un vector de punteros a nodos. Cada nodo contiene un puntero a una clave (en este caso, una cadena de caracteres), un puntero a un valor (elemento) y un puntero al siguiente nodo, que puede ser null si no hay otro nodo. La estructura que contiene el vector, llamada hash, incluye además dos variables enteras: una para la cantidad de elementos almacenados y otra para la capacidad del hash.
+Para la implementación se utilizó un hash cerrado con direccionamiento abierto, donde la tabla es un vector de punteros a claves y valores. Cada posición de la tabla puede contener una cadena de caracteres como clave y un puntero al valor asociado. La estructura que contiene el vector, llamada hash, incluye además dos variables enteras: una para la cantidad de elementos almacenados y otra para la capacidad del hash.
 
 Para confirmar la correcta implementación del TDA, se realizaron pruebas unitarias que simulan la mayor cantidad de casos posibles. Para la realización de las pruebas, se siguió un enfoque de desarrollo basado en pruebas (TDD), donde primero se escriben las pruebas y luego se implementa la mínima solución que las satisface.
 
@@ -46,67 +46,109 @@ Para confirmar la correcta implementación del TDA, se realizaron pruebas unitar
 
 ## Funcionamiento
 
-Para la implementación se definieron dos estructuras de datos: la estructura nodo, que contiene tres punteros (uno para el nodo siguiente, uno para la clave y el último para el valor), y la estructura del hash, que contiene dos enteros para almacenar la cantidad de pares y la capacidad, y un vector de punteros a nodos.
+Para la implementación se definieron dos estructuras de datos: una para la clave y el valor, y otra para el hash que contiene dos enteros para almacenar la cantidad de pares y la capacidad, además de dos vectores de punteros, uno para las claves y otro para los valores.
 
-El recorrido de las posiciones del vector del hash se hizo de forma iterativa, ya que era simplemente recorrer un vector común. Para recorrer los nodos pertenecientes a una posición, se usaron funciones recursivas, similares a las del TDA lista. En el caso del `rehash`, se recorrieron los nodos del vector antiguo de manera iterativa con un while para simplificar, utilizando `insertar_nodo` con el nuevo vector en cada iteración.
+El recorrido de las posiciones del vector del hash se hizo de forma iterativa, ya que era simplemente recorrer un vector común. En el caso del `rehash`, se recorrieron las posiciones del vector antiguo de manera iterativa con un bucle `for` para simplificar, utilizando `hash_insertar` con el nuevo vector en cada iteración.
 
 #### Insertar:
 
-Para la inserción, se utilizó una función auxiliar llamada `insertar_nodo`, que es recursiva. Esta función recorre los nodos pertenecientes a una posición del vector (formando una lista de nodos), se encarga de reservar memoria y verificar que la operación se haya realizado correctamente, y asigna el valor y la clave al nodo creado, así como al string creado.
-
-```c
-if (!nodo) {
-		struct nodo *nuevo_nodo = malloc(sizeof(struct nodo));
-		if (!nuevo_nodo)
-			return NULL;
-		size_t largo = strlen(clave);
-		char *nueva_clave = malloc((largo + 1) * sizeof(char));
-		if (!nueva_clave) {
-			free(nuevo_nodo);
-			return NULL;
-		}
-		strcpy(nueva_clave, clave);
-		nuevo_nodo->clave = nueva_clave;
-		nuevo_nodo->elemento = elemento;
-		nuevo_nodo->siguiente = NULL;
-		if (anterior)
-			*anterior = NULL;
-		(*tope)++;
-		return nuevo_nodo;
-	}
-```
-
-Para el `rehash`, se creó una función llamada `rehash`, que crea un nuevo vector de punteros a nodos con la nueva capacidad. Luego, recorre el antiguo vector de forma iterativa y, a medida que avanza, utiliza la función `insertar_nodo` en el nuevo vector. Después de insertar, libera la memoria del nodo en el antiguo vector (incluyendo la de la clave y la del nodo). Una vez terminado el recorrido del vector, este queda vacío porque se han eliminado las estructuras, por lo que solo resta liberar la memoria del antiguo vector y asignar el nuevo vector al hash. Finalmente, se actualiza la capacidad del vector y se retorna el hash actualizado.
-
-#### Eliminar:
-
-Para eliminar un nodo, se creó una función llamada `eliminar_nodo`, la cual es recursiva:
+Para la inserción, se utiliza la función `hash_insertar`:
 
 ```c
 {
-	if (!nodo)
-		return NULL;
-	struct nodo *nodo_aux = NULL;
-	if (strcmp(nodo->clave, clave) == 0) {
-		*elemento_encontrado = nodo->elemento;
-		nodo_aux = nodo->siguiente;
-		free(nodo->clave);
-		free(nodo);
-		*eliminado = true;
-		return nodo_aux;
+	size_t capacidad_maxima =
+		(size_t)((double)hash->capacidad * FACTOR_CARGA_MAXIMA);
+	if ((hash->cantidad + 1) > capacidad_maxima) {
+		if (!rehash(hash)) {
+			return NULL;
+		}
 	}
 
-	nodo->siguiente = eliminar_nodo(nodo->siguiente, clave,
-					elemento_encontrado, eliminado);
-	return nodo;
+	size_t pos = funcion_de_hash(clave, hash->capacidad);
+	size_t original_pos = pos;
+	bool encontrado = false;
+
+	while (hash->claves[pos] != NULL &&
+	       strcmp(hash->claves[pos], clave) != 0) {
+		pos = (pos + 1) % hash->capacidad;
+		if (pos == original_pos) {
+			return NULL;
+		}
+	}
+
+	if (hash->claves[pos] != NULL &&
+	    strcmp(hash->claves[pos], clave) == 0) {
+		encontrado = true;
+	}
+
+	if (encontrado) {
+		if (anterior) {
+			*anterior = hash->valores[pos];
+		}
+		hash->valores[pos] = elemento;
+	} else {
+		hash->claves[pos] = funcion_para_duplicar_una_cadena(clave);
+		hash->valores[pos] = elemento;
+		hash->cantidad++;
+		if (anterior) {
+			*anterior = NULL;
+		}
+	}
+
+	return hash;
 }
 ```
 
-Esta función es encargada de comparar la clave dada, con la clave del nodo actual; si son iguales, guarda en un auxiliar el nodo siguiente, libera la memoria reservada para el nodo a eliminar y retorna el siguiente nodo que estaba en el auxiliar. Si las claves no coinciden, la función sigue buscando, pero si encuentra un `NULL`, sale de la función ya que no existe el nodo con la clave buscada. En caso de eliminar satisfactoriamente, se cambia el valor de un flag pasado por referencia, lo que hace que la función `quitar` disminuya en 1 el contador de elementos del hash.
+Lo primero que realiza, es verificar si la carga del hash requiere un rehashing. Si el número de elementos más uno excede la capacidad máxima, se llama a la función `rehash`. Luego, se calcula la posición utilizando la función hash y se resuelve cualquier colisión utilizando direccionamiento abierto (cuadrático). Si se encuentra una clave existente, se actualiza su valor; de lo contrario, se inserta un nuevo par clave-valor.
+
+Para el `rehash`, se crea un nuevo vector con capacidad ajustada y se redistribuyen los elementos del vector antiguo. Se recorre cada posición del vector antiguo y se inserta cada elemento en la nueva tabla utilizando la función `hash_insertar`. Luego, se libera la memoria del vector antiguo y se asigna el nuevo vector al hash.
+
+#### Eliminar:
+
+Para eliminar un elemento, se utiliza la función `hash_quitar`,:
+
+```c
+{
+    size_t pos = funcion_de_hash(clave, hash->capacidad);
+	size_t original_pos = pos;
+
+	while (hash->claves[pos] != NULL) {
+		if (strcmp(hash->claves[pos], clave) == 0) {
+			void *valor = hash->valores[pos];
+			free(hash->claves[pos]);
+			hash->claves[pos] = NULL;
+			hash->valores[pos] = NULL;
+			hash->cantidad--;
+
+			size_t next_pos = (pos + 1) % hash->capacidad;
+			while (hash->claves[next_pos] != NULL) {
+				char *temp_clave = hash->claves[next_pos];
+				void *temp_valor = hash->valores[next_pos];
+				hash->claves[next_pos] = NULL;
+				hash->valores[next_pos] = NULL;
+				hash->cantidad--;
+				hash_insertar(hash, temp_clave, temp_valor,
+					      NULL);
+				free(temp_clave);
+				next_pos = (next_pos + 1) % hash->capacidad;
+			}
+
+			return valor;
+		}
+		pos = (pos + 1) % hash->capacidad;
+		if (pos == original_pos)
+			return NULL;
+	}
+
+	return NULL;
+}
+```
+
+La cual localiza la posición con la clave especificada, libera la memoria asociada y ajusta el vector para mantener la integridad del hash. Si encuentra la clave, elimina la entrada y reubica los elementos colisionados. La función sigue buscando hasta que se encuentre un `NULL`, indicando que la clave no existe.
 
 #### Destruir y Destruir Todo:
 
-La función `destruir_todo` recorre el vector de forma iterativa. Si el destructor no es `NULL`, aplica el destructor al elemento. Luego, libera la memoria reservada para la clave y el nodo. Finalmente, libera la memoria reservada para el vector y luego para el hash. La función destruir utiliza la función `destruir_todo` con un destructor `NULL`.
+La función `hash_destruir_todo` recorre el vector de forma iterativa. Si el destructor no es `NULL`, aplica el destructor al elemento. Luego, libera la memoria reservada para la clave y el elemento. Finalmente, libera la memoria reservada para los vectores de claves y valores, y luego para el hash. La función hash_destruir utiliza la función `hash_destruir_todo` con un destructor `NULL`.
 
 ---
 
