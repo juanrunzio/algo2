@@ -210,27 +210,28 @@ Características que debe tener una función de hash:
 
 Una tabla de hash es una estructura de datos que permite la asociación rápida de claves con valores. Utiliza una función de hash para mapear las claves a posiciones (índices) en una tabla, donde se almacenan los pares clave-valor. La principal ventaja de una tabla de hash es que puede proporcionar un acceso muy rápido a los datos, típicamente O(1) en promedio.
 
-Métodos de resolución de colisiones:
+#### Métodos de resolución de colisiones:
+
 Las colisiones ocurren cuando la función de hash asigna dos o más claves a la misma posición en la tabla. Para manejar esto, se utilizan varios métodos de resolución de colisiones:
 
-Encadenamiento (Chaining):
-Cada posición en la tabla contiene un puntero a una lista enlazada (o cualquier otra estructura de datos) que almacena todos los pares clave-valor que comparten la misma posición de hash.
-La ventaja es que es fácil de implementar y manejar.
-La desventaja, puede degradar el rendimiento si muchas claves colisionan, convirtiendo las operaciones en O(n).
+- Encadenamiento (Chaining):
+  Cada posición en la tabla contiene un puntero a una lista enlazada (o cualquier otra estructura de datos) que almacena todos los pares clave-valor que comparten la misma posición de hash.
+  La ventaja es que es fácil de implementar y manejar.
+  La desventaja, puede degradar el rendimiento si muchas claves colisionan, convirtiendo las operaciones en O(n).
 
-Probing Lineal (Linear Probing):
-En caso de colisión, se busca secuencialmente la siguiente posición libre en la tabla.
-La ventaja, simple de implementar y no requiere estructuras adicionales.
-La desventaja puede causar "clustering", donde grupos de claves colisionan y llenan secuencias contiguas de la tabla.
+- Probing Lineal (Linear Probing):
+  En caso de colisión, se busca secuencialmente la siguiente posición libre en la tabla.
+  La ventaja, simple de implementar y no requiere estructuras adicionales.
+  La desventaja puede causar "clustering", donde grupos de claves colisionan y llenan secuencias contiguas de la tabla.
 
-Probing Cuadrático (Quadratic Probing):
-Similar al probing lineal, pero en lugar de buscar secuencialmente, se usa una función cuadrática para determinar la siguiente posición.
-La ventaja es que reduce el problema de clustering primario comparado con el probing lineal.
-La desventaja es que puede aún provocar clustering secundario y puede ser complicado encontrar una posición libre si la tabla está bastante llena.
+- Probing Cuadrático (Quadratic Probing):
+  Similar al probing lineal, pero en lugar de buscar secuencialmente, se usa una función cuadrática para determinar la siguiente posición.
+  La ventaja es que reduce el problema de clustering primario comparado con el probing lineal.
+  La desventaja es que puede aún provocar clustering secundario y puede ser complicado encontrar una posición libre si la tabla está bastante llena.
 
-Double Hashing:
-Usa dos funciones de hash diferentes. Si una clave colisiona, la segunda función de hash se utiliza para encontrar la siguiente posición libre.
-La ventaja es que minimiza el clustering y distribuye las colisiones más uniformemente.
-La desventaja, es más compleja de implementar y requiere que ambas funciones de hash sean eficientes y bien distribuidas.
+- Double Hashing:
+  Usa dos funciones de hash diferentes. Si una clave colisiona, la segunda función de hash se utiliza para encontrar la siguiente posición libre.
+  La ventaja es que minimiza el clustering y distribuye las colisiones más uniformemente.
+  La desventaja, es más compleja de implementar y requiere que ambas funciones de hash sean eficientes y bien distribuidas.
 
 Estos métodos aseguran que incluso si dos claves producen el mismo hash, aún se puede almacenar y acceder a cada clave-valor de manera eficiente.
