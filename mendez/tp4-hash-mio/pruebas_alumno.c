@@ -1,5 +1,5 @@
-#include "pa2m.h"
 #include "./src/hash.h"
+#include "pa2m.h"
 #include <string.h>
 
 void creacion_de_hash()
@@ -10,10 +10,12 @@ void creacion_de_hash()
 	pa2m_afirmar(hash_2 != NULL, "Creo hash con parametro 5");
 	pa2m_afirmar(
 		hash_cantidad(hash_1) == 0,
-		"La cantidad de elementos se inicializo correctamente en 0, con el parametro 1");
+		"La cantidad de elementos se inicializo correctamente en 0, con "
+		"el parametro 1");
 	pa2m_afirmar(
 		hash_cantidad(hash_2) == 0,
-		"La cantidad de elementos se inicializo correctamente en 0, con el parametro 5");
+		"La cantidad de elementos se inicializo correctamente en 0, con "
+		"el parametro 5");
 	hash_destruir_todo(hash_1, NULL);
 	hash_destruir_todo(hash_2, NULL);
 }
@@ -76,7 +78,7 @@ void insercion_con_clave_anterior_o_hash_null()
 	hash_destruir_todo(hash_1, NULL);
 }
 
-void inserto_10_elementos_10_veces()
+void inserto_10_elementos_10_veces_un_total_de_100_elementos()
 {
 	struct hash *nuevo_hash = hash_crear(1);
 	char claves[10][10];
@@ -106,9 +108,9 @@ void inserto_10_elementos_10_veces()
 	}
 
 	nuevo_hash = hash_insertar(nuevo_hash, "c", "otro_valor", &anterior);
-	pa2m_afirmar(
-		hash_cantidad(nuevo_hash) == 10,
-		"Inserto 10 elementos con claves distintas, 10 veces y se reemplazan correctamente");
+	pa2m_afirmar(hash_cantidad(nuevo_hash) == 10,
+		     "Inserto 10 elementos con claves distintas, 10 veces y se "
+		     "reemplazan correctamente");
 	pa2m_afirmar(strcmp(anterior, valor_par) == 0,
 		     "Anterior guarda correctamente el valor");
 	nuevo_hash = hash_insertar(nuevo_hash, "c", "otro_valor_diferente",
@@ -139,14 +141,16 @@ void elimino_elementos()
 
 	char *resultado = hash_quitar(nuevo_hash, "a");
 	pa2m_afirmar(strcmp(resultado, "valorX") == 0,
-		     "Devuelve el elemento eliminado");
+		     "Retorna el elemento eliminado");
 	pa2m_afirmar(hash_cantidad(nuevo_hash) == 9,
 		     "La cantidad de elementos disminuye en 1");
 	resultado = hash_quitar(nuevo_hash, "w");
 	pa2m_afirmar(resultado == NULL,
-		     "No encuentra el elemento, devuelve NULL");
-	pa2m_afirmar(hash_cantidad(nuevo_hash) == 9,
-		     "La cantidad de elementos sigue siendo la misma");
+		     "No encuentra el elemento, retorna NULL");
+	pa2m_afirmar(
+		hash_cantidad(nuevo_hash) == 9,
+		"La cantidad de elementos no fue modificada, por lo tanto sigue "
+		"siendo la misma");
 
 	for (int i = 1; i < 10; i++)
 		hash_quitar(nuevo_hash, claves[i]);
@@ -155,7 +159,7 @@ void elimino_elementos()
 	hash_destruir_todo(nuevo_hash, NULL);
 }
 
-void eliminacion_con_hash_vacio_clave_null()
+void eliminacion_con_hash_vacio_con_clave_null()
 {
 	struct hash *nuevo_hash = hash_crear(1);
 	pa2m_afirmar(hash_quitar(nuevo_hash, "r") == NULL,
@@ -166,6 +170,124 @@ void eliminacion_con_hash_vacio_clave_null()
 	pa2m_afirmar(hash_quitar(nuevo_hash, NULL) == NULL,
 		     "Si no hay clave retorno NULL");
 	hash_destruir_todo(nuevo_hash, NULL);
+}
+
+void obtengo_elementos()
+{
+	struct hash *nuevo_hash = hash_crear(1);
+	char claves[10][10];
+	strcpy(claves[0], "a");
+	strcpy(claves[1], "b");
+	strcpy(claves[2], "c");
+	strcpy(claves[3], "d");
+	strcpy(claves[4], "e");
+	strcpy(claves[5], "f");
+	strcpy(claves[6], "g");
+	strcpy(claves[7], "h");
+	strcpy(claves[8], "i");
+	strcpy(claves[9], "j");
+	char *valor = "valorX";
+
+	for (int i = 0; i < 10; i++)
+		nuevo_hash = hash_insertar(nuevo_hash, claves[i], valor, NULL);
+
+	nuevo_hash = hash_insertar(nuevo_hash, "f", "valor_distinto", NULL);
+	nuevo_hash =
+		hash_insertar(nuevo_hash, "h", "otro_valor_distinto", NULL);
+
+	char *resultado = hash_obtener(nuevo_hash, "a");
+
+	pa2m_afirmar(strcmp(resultado, "valorX") == 0,
+		     "Devuelve el elemento buscado");
+	pa2m_afirmar(hash_cantidad(nuevo_hash) == 10,
+		     "La cantidad de elementos sigue siendo la misma");
+
+	resultado = hash_obtener(nuevo_hash, "w");
+	pa2m_afirmar(resultado == NULL,
+		     "No encuentra el elemento, retorna NULL");
+	pa2m_afirmar(hash_cantidad(nuevo_hash) == 10,
+		     "La cantidad de elementos sigue siendo la misma");
+
+	resultado = hash_obtener(nuevo_hash, "f");
+	pa2m_afirmar(strcmp(resultado, "valor_distinto") == 0,
+		     "Encuentra otro elemento y lo devuelve");
+	resultado = hash_obtener(nuevo_hash, "h");
+	pa2m_afirmar(strcmp(resultado, "otro_valor_distinto") == 0,
+		     "Encuentra otro elemento distinto y lo devuelve");
+
+	hash_destruir_todo(nuevo_hash, NULL);
+}
+void contiene_elementos()
+{
+	struct hash *nuevo_hash = hash_crear(1);
+	char claves[10][10];
+	strcpy(claves[0], "a");
+	strcpy(claves[1], "b");
+	strcpy(claves[2], "c");
+	strcpy(claves[3], "d");
+	strcpy(claves[4], "e");
+	strcpy(claves[5], "f");
+	strcpy(claves[6], "g");
+	strcpy(claves[7], "h");
+	strcpy(claves[8], "i");
+	strcpy(claves[9], "j");
+	char *valor = "valorX";
+
+	for (int i = 0; i < 10; i++)
+		nuevo_hash = hash_insertar(nuevo_hash, claves[i], valor, NULL);
+
+	nuevo_hash = hash_insertar(nuevo_hash, "f", "valor_distinto", NULL);
+	nuevo_hash =
+		hash_insertar(nuevo_hash, "h", "otro_valor_distinto", NULL);
+
+	bool resultado = hash_contiene(nuevo_hash, "a");
+
+	pa2m_afirmar(resultado == true,
+		     "Retorna true al encontrar el elemento");
+	pa2m_afirmar(hash_cantidad(nuevo_hash) == 10,
+		     "La cantidad de elementos sigue siendo la misma");
+
+	resultado = hash_contiene(nuevo_hash, "w");
+	pa2m_afirmar(resultado == false,
+		     "No encuentra el elemento, retorna false");
+	pa2m_afirmar(hash_cantidad(nuevo_hash) == 10,
+		     "La cantidad de elementos sigue siendo la misma");
+
+	resultado = hash_contiene(nuevo_hash, "f");
+	pa2m_afirmar(resultado == true,
+		     "Encuentra otro elemento y retorna true");
+	resultado = hash_contiene(nuevo_hash, "h");
+	pa2m_afirmar(resultado == true,
+		     "Encuentra otro elemento distinto y retorna true");
+
+	hash_destruir_todo(nuevo_hash, NULL);
+}
+
+static bool funcion_iteracion(const char *clave, void *valor, void *aux)
+{
+	(void)aux;
+	printf("Clave: %s, Valor: %s\n", clave, (char *)valor);
+	return true;
+}
+
+void test_iterador_interno()
+{
+	hash_t *hash = hash_crear(10);
+	hash_insertar(hash, "a", "1", NULL);
+	hash_insertar(hash, "b", "2", NULL);
+	hash_insertar(hash, "c", "3", NULL);
+	hash_insertar(hash, "d", "4", NULL);
+	hash_insertar(hash, "e", "5", NULL);
+	hash_insertar(hash, "f", "6", NULL);
+	hash_insertar(hash, "g", "7", NULL);
+	hash_insertar(hash, "h", "8", NULL);
+	hash_insertar(hash, "i", "9", NULL);
+	hash_insertar(hash, "j", "10", NULL);
+
+	size_t cantidad = hash_con_cada_clave(hash, funcion_iteracion, NULL);
+	pa2m_afirmar(cantidad == 10, "Se recorrieron todas las claves");
+
+	hash_destruir(hash);
 }
 
 int main()
@@ -183,11 +305,21 @@ int main()
 	pa2m_nuevo_grupo(
 		"4_Pruebas de insercion de claves repetidas en el hash");
 	reemplazo_en_hash();
-	pa2m_nuevo_grupo("5_Pruebas de insercion de 100 elementos");
-	inserto_10_elementos_10_veces();
+	pa2m_nuevo_grupo("5_Pruebas de insercion de varios elementos(100)");
+	inserto_10_elementos_10_veces_un_total_de_100_elementos();
 	pa2m_nuevo_grupo("6_Pruebas de eliminacion de elementos en el hash");
 	elimino_elementos();
-	eliminacion_con_hash_vacio_clave_null();
+	eliminacion_con_hash_vacio_con_clave_null();
+	pa2m_nuevo_grupo("7_Pruebas de obtener los elementos del hash");
+	obtengo_elementos();
+	pa2m_nuevo_grupo(
+		"8_Pruebas de ver si contiene a un elementos en el hash");
+	contiene_elementos();
 
+	pa2m_nuevo_grupo("9_Pruebas de iterador interno");
+	test_iterador_interno();
+
+	pa2m_nuevo_grupo(
+		"\n======================== XXX ========================");
 	return pa2m_mostrar_reporte();
 }

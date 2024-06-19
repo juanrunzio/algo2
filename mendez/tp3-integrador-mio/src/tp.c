@@ -71,11 +71,11 @@ static struct pokemon_info *crear_pokemon(const char *linea) {
         return NULL;
     }
 
-    char *resto = duplicar_cadena(linea);
-    if (!resto) {
-        free(pokemon);
-        return NULL;
-    }
+	char *resto = duplicar_cadena(linea);
+	if (!resto) {
+		free(pokemon);
+		return NULL;
+	}
 
     char *campo_del_archivo = extraer_token(&resto, ",");
     if (!campo_del_archivo) {
