@@ -3,13 +3,6 @@
 #include "src/abb_estructura_privada.h"
 #include <stdio.h>
 
-void prueba_simple()
-{
-	int i = 14;
-	int j = 18;
-	pa2m_afirmar(i != j, "i=14 es diferente de j=16");
-}
-
 int comparador(void *elemento_1, void *elemento_2)
 {
 	int *e_1 = elemento_1;
@@ -453,10 +446,6 @@ void pruebas_con_un_array_que_es_null_o_un_arbol_null()
 
 int main()
 {
-	pa2m_nuevo_grupo(
-		"\n======================== XXX ========================");
-	prueba_simple();
-
 	pa2m_nuevo_grupo(
 		"\n======================== XXX ========================");
 
