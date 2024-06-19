@@ -4,15 +4,44 @@
 #include <string.h>
 
 typedef struct nodo_abb {
-    struct pokemon_info *pokemon;
+    struct pokemon_info dato;
     struct nodo_abb *izquierda;
     struct nodo_abb *derecha;
-} nodo_abb_t;
+} nodo_abb;
 
 struct tp {
-    nodo_abb_t *raiz;
+    nodo_abb *arbol_pokemones;
+    struct pokemon_info *seleccionados[2];
+    enum TP_OBSTACULO *pistas[2];
+    unsigned cantidad_obstaculos[2];
 };
 
+static nodo_abb *crear_nodo(struct pokemon_info *pokemon) {
+    nodo_abb *nuevo_nodo = (nodo_abb *)malloc(sizeof(nodo_abb));
+    if (!nuevo_nodo) {
+        return NULL;
+    }
+    nuevo_nodo->dato = *pokemon;
+    nuevo_nodo->izquierda = NULL;
+    nuevo_nodo->derecha = NULL;
+    return nuevo_nodo;
+}
+
+nodo_abb *insertar_pokemon(nodo_abb *raiz, struct pokemon_info *pokemon) {
+    if (raiz == NULL) {
+        return crear_nodo(pokemon);
+    }
+
+    if (strcmp(pokemon->nombre, raiz->dato.nombre) < 0) {
+        raiz->izquierda = insertar_pokemon(raiz->izquierda, pokemon);
+    } else {
+        raiz->derecha = insertar_pokemon(raiz->derecha, pokemon);
+    }
+
+    return raiz;
+}
+
+// Función para duplicar una cadena (reemplazo de strdup)
 static char *duplicar_cadena(const char *cadena) {
     size_t longitud = strlen(cadena) + 1;
     char *nueva_cadena = (char *)malloc(longitud);
@@ -22,7 +51,8 @@ static char *duplicar_cadena(const char *cadena) {
     return nueva_cadena;
 }
 
-static char *extraigo_cada_campo_separado(char **str, const char *delim) {
+// Función para separar una línea en tokens sin usar strtok
+static char *extraer_token(char **str, const char *delim) {
     char *start = *str;
     char *end = strstr(start, delim);
     if (end) {
@@ -34,6 +64,7 @@ static char *extraigo_cada_campo_separado(char **str, const char *delim) {
     return start;
 }
 
+// Función para crear un nuevo Pokémon a partir de una línea de texto
 static struct pokemon_info *crear_pokemon(const char *linea) {
     struct pokemon_info *pokemon = (struct pokemon_info *)malloc(sizeof(struct pokemon_info));
     if (!pokemon) {
@@ -46,7 +77,7 @@ static struct pokemon_info *crear_pokemon(const char *linea) {
         return NULL;
     }
 
-    char *campo_del_archivo = extraigo_cada_campo_separado(&resto, ",");
+    char *campo_del_archivo = extraer_token(&resto, ",");
     if (!campo_del_archivo) {
         free(resto);
         free(pokemon);
@@ -54,7 +85,7 @@ static struct pokemon_info *crear_pokemon(const char *linea) {
     }
     pokemon->nombre = duplicar_cadena(campo_del_archivo);
 
-    campo_del_archivo = extraigo_cada_campo_separado(&resto, ",");
+    campo_del_archivo = extraer_token(&resto, ",");
     if (!campo_del_archivo) {
         free(pokemon->nombre);
         free(resto);
@@ -63,70 +94,70 @@ static struct pokemon_info *crear_pokemon(const char *linea) {
     }
     pokemon->fuerza = atoi(campo_del_archivo);
 
+    campo_del_archivo = extraer_token(&resto, ",");
+    if (!campo_del_archivo) {
+        free(pokemon->nombre);
+        free(resto);
+        free(pokemon);
+        return NULL;
+    }
+    pokemon->destreza = atoi(campo_del_archivo);
+
+    campo_del_archivo = extraer_token(&resto, ",");
+    if (!campo_del_archivo) {
+        free(pokemon->nombre);
+        free(resto);
+        free(pokemon);
+        return NULL;
+    }
+    pokemon->inteligencia = atoi(campo_del_archivo);
+
+    free(resto);
     return pokemon;
-}
-
-static nodo_abb_t *insertar_pokemon(nodo_abb_t *raiz, struct pokemon_info *pokemon) {
-    if (raiz == NULL) {
-        nodo_abb_t *nuevo_nodo = (nodo_abb_t *)malloc(sizeof(nodo_abb_t));
-        if (!nuevo_nodo) {
-            return NULL;
-        }
-        nuevo_nodo->pokemon = pokemon;
-        nuevo_nodo->izquierda = NULL;
-        nuevo_nodo->derecha = NULL;
-        return nuevo_nodo;
-    }
-
-    if (strcmp(pokemon->nombre, raiz->pokemon->nombre) < 0) {
-        raiz->izquierda = insertar_pokemon(raiz->izquierda, pokemon);
-    } else if (strcmp(pokemon->nombre, raiz->pokemon->nombre) > 0) {
-        raiz->derecha = insertar_pokemon(raiz->derecha, pokemon);
-    }
-
-    return raiz;
 }
 
 
 TP *tp_crear(const char *nombre_archivo) {
-    FILE *archivo = fopen(nombre_archivo, "r");
+     FILE *archivo = fopen(nombre_archivo, "r");
     if (!archivo) {
         return NULL;
     }
 
-    // creo la estructura TP
     TP *tp = (TP *)malloc(sizeof(TP));
     if (!tp) {
         fclose(archivo);
         return NULL;
     }
 
-    // inicializo la raíz del árbol
-    tp->raiz = NULL;
+    tp->arbol_pokemones = NULL;
 
-    // leo el archivo línea por línea y crear los nodos del árbol
     char linea[256];
     while (fgets(linea, sizeof(linea), archivo)) {
-        // Crear un nuevo Pokémon a partir de la línea
-        struct pokemon_info *pokemon = crear_pokemon(linea);
-        if (!pokemon) {
-            continue; // Saltar al siguiente pokemon si hay un error
-        }
+        linea[strcspn(linea, "\n")] = '\0';  // Eliminar el salto de línea
 
-        // Insertar el Pokémon en el árbol
-        tp->raiz = insertar_pokemon(tp->raiz, pokemon);
+        struct pokemon_info *pokemon = crear_pokemon(linea);
+        if (pokemon) {
+            tp->arbol_pokemones = insertar_pokemon(tp->arbol_pokemones, pokemon);
+        }
     }
 
     fclose(archivo);
-
     return tp;
 }
 
-
+static int contar_pokemon(nodo_abb *nodo) {
+    if (nodo == NULL) {
+        return 0;
+    }
+    return 1 + contar_pokemon(nodo->izquierda) + contar_pokemon(nodo->derecha);
+}
 
 int tp_cantidad_pokemon(TP *tp)
 {
-	return 0;
+	if (tp == NULL) {
+        return 0;
+    }
+    return contar_pokemon(tp->arbol_pokemones);
 }
 
 const struct pokemon_info *tp_buscar_pokemon(TP *tp, const char *nombre)
@@ -181,19 +212,33 @@ char *tp_tiempo_por_obstaculo(TP *tp, enum TP_JUGADOR jugador)
 	return NULL;
 }
 
-static void liberar_nodo(nodo_abb_t *nodo) {
-    if (nodo != NULL) {
+static void liberar_nodo(nodo_abb *nodo) {
+   if (nodo != NULL) {
         liberar_nodo(nodo->izquierda);
         liberar_nodo(nodo->derecha);
-        free(nodo->pokemon->nombre);
-        free(nodo->pokemon);
+        free(nodo->dato.nombre);
         free(nodo);
     }
 }
 
 void tp_destruir(TP *tp) {
-    if (tp != NULL) {
-        liberar_nodo(tp->raiz);
+     if (tp != NULL) {
+        // Liberar el árbol de Pokémon
+        liberar_nodo(tp->arbol_pokemones);
+        
+        // Liberar los Pokémon seleccionados
+        for (int i = 0; i < 2; ++i) {
+            if (tp->seleccionados[i] != NULL) {
+                free(tp->seleccionados[i]->nombre);
+                free(tp->seleccionados[i]);
+            }
+        }
+
+        // Liberar las pistas
+        free(tp->pistas[0]);
+        free(tp->pistas[1]);
+        
+        // Liberar el TP
         free(tp);
     }
 }
