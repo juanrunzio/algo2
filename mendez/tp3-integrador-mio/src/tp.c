@@ -44,15 +44,13 @@ nodo_abb *insertar_pokemon(nodo_abb *raiz, struct pokemon_info *pokemon)
 	return raiz;
 }
 
-// Función para duplicar una cadena (reemplazo de strdup)
-static char *duplicar_cadena(const char *cadena)
-{
-	size_t longitud = strlen(cadena) + 1;
-	char *nueva_cadena = (char *)malloc(longitud);
-	if (nueva_cadena) {
-		memcpy(nueva_cadena, cadena, longitud);
-	}
-	return nueva_cadena;
+char* duplicar_cadena(const char* cadena) {
+    if (cadena == NULL) return NULL;
+    char* nueva_cadena = malloc(strlen(cadena) + 1);
+    if (nueva_cadena != NULL) {
+        strcpy(nueva_cadena, cadena);
+    }
+    return nueva_cadena;
 }
 
 // Función para separar una línea en tokens sin usar strtok
@@ -69,89 +67,163 @@ static char *extraer_token(char **str, const char *delim)
 	return start;
 }
 
-// Función para crear un nuevo Pokémon a partir de una línea de texto
+void liberar_pokemon_info(struct pokemon_info *pokemon) {
+    if (pokemon) {
+        free(pokemon->nombre);
+        free(pokemon);
+    }
+}
+
+void liberar_nodo_abb(nodo_abb *nodo) {
+    if (nodo) {
+        liberar_pokemon_info(&nodo->dato);  // Si `dato` fue dinámicamente asignado
+        liberar_nodo_abb(nodo->izquierda);
+        liberar_nodo_abb(nodo->derecha);
+        free(nodo);
+    }
+}
+
+
 static struct pokemon_info *crear_pokemon(const char *linea)
 {
-	struct pokemon_info *pokemon =
-		(struct pokemon_info *)malloc(sizeof(struct pokemon_info));
-	if (!pokemon) {
-		return NULL;
-	}
+	  struct pokemon_info *pokemon = (struct pokemon_info *)malloc(sizeof(struct pokemon_info));
+    if (!pokemon) {
+        return NULL;
+    }
 
-	char *resto = duplicar_cadena(linea);
-	if (!resto) {
-		free(pokemon);
-		return NULL;
-	}
+    char *resto = duplicar_cadena(linea);
+    if (!resto) {
+        free(pokemon);
+        return NULL;
+    }
 
-	char *campo_del_archivo = extraer_token(&resto, ",");
-	if (!campo_del_archivo) {
-		free(resto);
-		free(pokemon);
-		return NULL;
-	}
-	pokemon->nombre = duplicar_cadena(campo_del_archivo);
+    char *campo_del_archivo = extraer_token(&resto, ",");
+    if (!campo_del_archivo) {
+        free(resto);
+        free(pokemon);
+        return NULL;
+    }
+    pokemon->nombre = duplicar_cadena(campo_del_archivo);
+    if (!pokemon->nombre) {
+        free(resto);
+        free(pokemon);
+        return NULL;
+    }
 
-	campo_del_archivo = extraer_token(&resto, ",");
-	if (!campo_del_archivo) {
-		free(pokemon->nombre);
-		free(resto);
-		free(pokemon);
-		return NULL;
-	}
-	pokemon->fuerza = atoi(campo_del_archivo);
+    campo_del_archivo = extraer_token(&resto, ",");
+    if (!campo_del_archivo) {
+        liberar_pokemon_info(pokemon);
+        free(resto);
+        return NULL;
+    }
+    pokemon->fuerza = atoi(campo_del_archivo);
 
-	campo_del_archivo = extraer_token(&resto, ",");
-	if (!campo_del_archivo) {
-		free(pokemon->nombre);
-		free(resto);
-		free(pokemon);
-		return NULL;
-	}
-	pokemon->destreza = atoi(campo_del_archivo);
+    campo_del_archivo = extraer_token(&resto, ",");
+    if (!campo_del_archivo) {
+        liberar_pokemon_info(pokemon);
+        free(resto);
+        return NULL;
+    }
+    pokemon->destreza = atoi(campo_del_archivo);
 
-	campo_del_archivo = extraer_token(&resto, ",");
-	if (!campo_del_archivo) {
-		free(pokemon->nombre);
-		free(resto);
-		free(pokemon);
-		return NULL;
-	}
-	pokemon->inteligencia = atoi(campo_del_archivo);
+    campo_del_archivo = extraer_token(&resto, ",");
+    if (!campo_del_archivo) {
+        liberar_pokemon_info(pokemon);
+        free(resto);
+        return NULL;
+    }
+    pokemon->inteligencia = atoi(campo_del_archivo);
 
-	free(resto);
-	return pokemon;
+    free(resto);
+    return pokemon;
+}
+
+
+static void liberar_nodo(nodo_abb *nodo) {
+    if (nodo == NULL) {
+        return;
+    }
+
+    liberar_nodo(nodo->izquierda);
+    liberar_nodo(nodo->derecha);
+
+    // Liberar la memoria del nombre del Pokémon si no es NULL
+    if (nodo->dato.nombre != NULL) {
+        free(nodo->dato.nombre);
+    }
+
+    // Liberar la estructura del nodo
+    free(nodo);
+}
+
+void liberar_tp(TP *tp) {
+    if (tp == NULL) {
+        return;
+    }
+
+    // Liberar los seleccionados
+    for (int i = 0; i < 2; i++) {
+        if (tp->seleccionados[i] != NULL) {
+            if (tp->seleccionados[i]->nombre != NULL) {
+                free(tp->seleccionados[i]->nombre);
+            }
+            free(tp->seleccionados[i]);
+            tp->seleccionados[i] = NULL; // Asegurar que el puntero no se use después de la liberación
+        }
+    }
+
+    // Liberar las pistas
+    for (int i = 0; i < 2; i++) {
+        if (tp->pistas[i] != NULL) {
+            free(tp->pistas[i]);
+            tp->pistas[i] = NULL;
+        }
+    }
+
+    // Liberar el árbol de pokemones
+    liberar_nodo(tp->arbol_pokemones);
+
+    // Liberar la estructura TP
+    free(tp);
 }
 
 TP *tp_crear(const char *nombre_archivo)
 {
 	FILE *archivo = fopen(nombre_archivo, "r");
-	if (!archivo) {
-		return NULL;
-	}
+    if (!archivo) {
+        return NULL;
+    }
 
-	TP *tp = (TP *)malloc(sizeof(TP));
-	if (!tp) {
-		fclose(archivo);
-		return NULL;
-	}
+    TP *tp = (TP *)malloc(sizeof(TP));
+    if (!tp) {
+        fclose(archivo);
+        return NULL;
+    }
 
-	tp->arbol_pokemones = NULL;
+    tp->arbol_pokemones = NULL;
+    tp->seleccionados[0] = NULL;
+    tp->seleccionados[1] = NULL;
+    tp->pistas[0] = NULL;
+    tp->pistas[1] = NULL;
+    tp->cantidad_obstaculos[0] = 0;
+    tp->cantidad_obstaculos[1] = 0;
 
-	char linea[256];
-	while (fgets(linea, sizeof(linea), archivo)) {
-		linea[strcspn(linea, "\n")] =
-			'\0'; // Eliminar el salto de línea
+    char linea[256];
+    while (fgets(linea, sizeof(linea), archivo)) {
+        linea[strcspn(linea, "\n")] = '\0'; // Eliminar el salto de línea
 
-		struct pokemon_info *pokemon = crear_pokemon(linea);
-		if (pokemon) {
-			tp->arbol_pokemones =
-				insertar_pokemon(tp->arbol_pokemones, pokemon);
-		}
-	}
+        struct pokemon_info *pokemon = crear_pokemon(linea);
+        if (pokemon) {
+            tp->arbol_pokemones = insertar_pokemon(tp->arbol_pokemones, pokemon);
+        } else {
+            liberar_tp(tp);
+            fclose(archivo);
+            return NULL;
+        }
+    }
 
-	fclose(archivo);
-	return tp;
+    fclose(archivo);
+    return tp;
 }
 
 static int contar_pokemon(nodo_abb *nodo)
@@ -175,7 +247,7 @@ int tp_cantidad_pokemon(TP *tp)
 static void convertir_minusculas(char *destino, const char *origen)
 {
 	while (*origen) {
-		*destino = tolower(*origen);
+		*destino = (char)tolower((unsigned char)*origen);
 		destino++;
 		origen++;
 	}
@@ -237,46 +309,51 @@ static void llenar_array_nombres(nodo_abb *raiz, char **nombres, int *indice)
 
 char *tp_nombres_disponibles(TP *tp)
 {
-	if (tp == NULL || tp->arbol_pokemones == NULL) {
-		return NULL;
-	}
+    if (tp == NULL || tp->arbol_pokemones == NULL) {
+        return NULL;
+    }
 
-	int cantidad_pokemones = 0;
-	contar_pokemones(tp->arbol_pokemones, &cantidad_pokemones);
+    int cantidad_pokemones = 0;
+    contar_pokemones(tp->arbol_pokemones, &cantidad_pokemones);
 
-	if (cantidad_pokemones == 0) {
-		return NULL;
-	}
+    if (cantidad_pokemones == 0) {
+        return NULL;
+    }
 
-	char **nombres = malloc(cantidad_pokemones * sizeof(char *));
-	if (nombres == NULL) {
-		return NULL;
-	}
+    char **nombres = malloc((size_t)cantidad_pokemones * sizeof(char *));
+    if (nombres == NULL) {
+        return NULL;
+    }
 
-	int indice = 0;
-	llenar_array_nombres(tp->arbol_pokemones, nombres, &indice);
+    int indice = 0;
+    llenar_array_nombres(tp->arbol_pokemones, nombres, &indice);
 
-	size_t longitud_total = 0;
-	for (int i = 0; i < cantidad_pokemones; i++) {
-		longitud_total += strlen(nombres[i]) + 1;
-	}
+    size_t longitud_total = 0;
+    for (int i = 0; i < cantidad_pokemones; i++) {
+        longitud_total += strlen(nombres[i]) + 1;
+    }
 
-	char *resultado = malloc(longitud_total);
-	if (resultado == NULL) {
-		free(nombres);
-		return NULL;
-	}
+    if (longitud_total == 0) {
+        free(nombres);
+        return NULL;
+    }
 
-	resultado[0] = '\0';
-	for (int i = 0; i < cantidad_pokemones; i++) {
-		strcat(resultado, nombres[i]);
-		if (i < cantidad_pokemones - 1) {
-			strcat(resultado, ",");
-		}
-	}
+    char *resultado = malloc(longitud_total);
+    if (resultado == NULL) {
+        free(nombres);
+        return NULL;
+    }
 
-	free(nombres);
-	return resultado;
+    resultado[0] = '\0';
+    for (int i = 0; i < cantidad_pokemones; i++) {
+        strcat(resultado, nombres[i]);
+        if (i < cantidad_pokemones - 1) {
+            strcat(resultado, ",");
+        }
+    }
+
+    free(nombres);
+    return resultado;
 }
 
 bool tp_seleccionar_pokemon(TP *tp, enum TP_JUGADOR jugador, const char *nombre)
@@ -305,7 +382,10 @@ bool tp_seleccionar_pokemon(TP *tp, enum TP_JUGADOR jugador, const char *nombre)
 const struct pokemon_info *tp_pokemon_seleccionado(TP *tp,
 						   enum TP_JUGADOR jugador)
 {
-	return NULL;
+	 if (tp == NULL || (jugador != JUGADOR_1 && jugador != JUGADOR_2)) {
+        return NULL;
+    }
+    return tp->seleccionados[jugador];
 }
 
 unsigned tp_agregar_obstaculo(TP *tp, enum TP_JUGADOR jugador,
@@ -339,44 +419,8 @@ char *tp_tiempo_por_obstaculo(TP *tp, enum TP_JUGADOR jugador)
 	return NULL;
 }
 
-static void liberar_nodo(nodo_abb *nodo)
-{
-	if (nodo) {
-		// Liberar recursivamente los subárboles izquierdo y derecho
-		liberar_nodo(nodo->izquierda);
-		liberar_nodo(nodo->derecha);
-		// Liberar el nombre del Pokémon
-		free(nodo->dato.nombre);
-		// Liberar el nodo
-		free(nodo);
-	}
-}
 
 void tp_destruir(TP *tp)
 {
-	if (!tp)
-		return;
-
-	// Liberar todos los nodos del árbol
-	liberar_nodo(tp->arbol_pokemones);
-
-	// Liberar los punteros de los jugadores si están asignados
-	if (tp->seleccionados[0]) {
-		free(tp->seleccionados[0]->nombre); // Liberar el nombre
-		free(tp->seleccionados[0]); // Liberar la estructura
-	}
-	if (tp->seleccionados[1]) {
-		free(tp->seleccionados[1]->nombre); // Liberar el nombre
-		free(tp->seleccionados[1]); // Liberar la estructura
-	}
-
-	// Liberar las pistas y sus obstáculos
-	for (int i = 0; i < 2; i++) {
-		if (tp->pistas[i]) {
-			free(tp->pistas[i]);
-		}
-	}
-
-	// Liberar la estructura TP
-	free(tp);
+   liberar_tp(tp);
 }
