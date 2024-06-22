@@ -41,8 +41,7 @@ void prueba_tp_cantidad_pokemon()
 }
 void prueba_tp_buscar_pokemon()
 {
-	TP *tp = tp_crear(
-		"ejemplo/pokemones.txt");
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
 
 	pa2m_afirmar(tp_buscar_pokemon(tp, "Pikachu") != NULL,
 		     "Se encontró a Pikachu.");
@@ -58,8 +57,7 @@ void prueba_tp_buscar_pokemon()
 
 void prueba_tp_nombres_disponibles()
 {
-	TP *tp = tp_crear(
-		"ejemplo/pokemones.txt");
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
 
 	char *nombres = tp_nombres_disponibles(tp);
 	pa2m_afirmar(nombres != NULL,
@@ -76,8 +74,7 @@ void prueba_tp_nombres_disponibles()
 
 void prueba_tp_seleccionar_pokemon()
 {
-	TP *tp = tp_crear(
-		"ejemplo/pokemones.txt");
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
 
 	pa2m_afirmar(tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu"),
 		     "Jugador 1 seleccionó a Pikachu.");
@@ -92,68 +89,90 @@ void prueba_tp_seleccionar_pokemon()
 	tp_destruir(tp);
 }
 
-void prueba_tp_seleccionar_pokemon2() {
-     TP *tp = tp_crear("ejemplo/pokemones.txt");
-    pa2m_afirmar(tp != NULL, "tp_crear crea un TP cuando el archivo es válido");
+void prueba_tp_seleccionar_pokemon2()
+{
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
+	pa2m_afirmar(tp != NULL,
+		     "tp_crear crea un TP cuando el archivo es válido");
 
-    pa2m_afirmar(tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu"), "Jugador 1 selecciona a Pikachu");
-    pa2m_afirmar(tp_seleccionar_pokemon(tp, JUGADOR_2, "Charizard"), "Jugador 2 selecciona a Charizard");
+	pa2m_afirmar(tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu"),
+		     "Jugador 1 selecciona a Pikachu");
+	pa2m_afirmar(tp_seleccionar_pokemon(tp, JUGADOR_2, "Charizard"),
+		     "Jugador 2 selecciona a Charizard");
 
-    pa2m_afirmar(strcmp(tp_pokemon_seleccionado(tp, JUGADOR_1)->nombre, "Pikachu") == 0, "Jugador 1 tiene a Pikachu");
-    pa2m_afirmar(strcmp(tp_pokemon_seleccionado(tp, JUGADOR_2)->nombre, "Charizard") == 0, "Jugador 2 tiene a Charizard");
+	pa2m_afirmar(strcmp(tp_pokemon_seleccionado(tp, JUGADOR_1)->nombre,
+			    "Pikachu") == 0,
+		     "Jugador 1 tiene a Pikachu");
+	pa2m_afirmar(strcmp(tp_pokemon_seleccionado(tp, JUGADOR_2)->nombre,
+			    "Charizard") == 0,
+		     "Jugador 2 tiene a Charizard");
 
-    tp_destruir(tp);
+	tp_destruir(tp);
 }
 
-void prueba_tp_agregar_y_quitar_obstaculo() {
-    TP *tp = tp_crear("ejemplo/pokemones.txt");
-    pa2m_afirmar(tp != NULL, "tp_crear crea un TP cuando el archivo es válido");
+void prueba_tp_agregar_y_quitar_obstaculo()
+{
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
+	pa2m_afirmar(tp != NULL,
+		     "tp_crear crea un TP cuando el archivo es válido");
 
-    pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0) > 0, "Se agrega un obstáculo de fuerza para el Jugador 1");
-    pa2m_afirmar(tp_quitar_obstaculo(tp, JUGADOR_1, 0) > 0, "Se quita el obstáculo de fuerza para el Jugador 1");
+	pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0) >
+			     0,
+		     "Se agrega un obstáculo de fuerza para el Jugador 1");
+	pa2m_afirmar(tp_quitar_obstaculo(tp, JUGADOR_1, 0) > 0,
+		     "Se quita el obstáculo de fuerza para el Jugador 1");
 
-    tp_destruir(tp);
+	tp_destruir(tp);
 }
 
-void prueba_tp_obstaculos_pista() {
-    TP *tp = tp_crear("ejemplo/pokemones.txt");
-    pa2m_afirmar(tp != NULL, "tp_crear crea un TP cuando el archivo es válido");
+void prueba_tp_obstaculos_pista()
+{
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
+	pa2m_afirmar(tp != NULL,
+		     "tp_crear crea un TP cuando el archivo es válido");
 
-    tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
-    tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_DESTREZA, 1);
+	tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
+	tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_DESTREZA, 1);
 
-    char *obstaculos = tp_obstaculos_pista(tp, JUGADOR_1);
-    pa2m_afirmar(obstaculos != NULL, "Se obtienen los obstáculos en la pista del Jugador 1");
-    free(obstaculos);
+	char *obstaculos = tp_obstaculos_pista(tp, JUGADOR_1);
+	pa2m_afirmar(obstaculos != NULL,
+		     "Se obtienen los obstáculos en la pista del Jugador 1");
+	free(obstaculos);
 
-    tp_destruir(tp);
+	tp_destruir(tp);
 }
 
-void prueba_tp_calcular_tiempo_pista() {
-    TP *tp = tp_crear("ejemplo/pokemones.txt");
-    pa2m_afirmar(tp != NULL, "tp_crear crea un TP cuando el archivo es válido");
+void prueba_tp_calcular_tiempo_pista()
+{
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
+	pa2m_afirmar(tp != NULL,
+		     "tp_crear crea un TP cuando el archivo es válido");
 
-    tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu");
-    tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
+	tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu");
+	tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
 
-    unsigned tiempo = tp_calcular_tiempo_pista(tp, JUGADOR_1);
-    pa2m_afirmar(tiempo > 0, "Se calcula el tiempo de la pista para el Jugador 1");
+	unsigned tiempo = tp_calcular_tiempo_pista(tp, JUGADOR_1);
+	pa2m_afirmar(tiempo > 0,
+		     "Se calcula el tiempo de la pista para el Jugador 1");
 
-    tp_destruir(tp);
+	tp_destruir(tp);
 }
 
-void prueba_tp_tiempo_por_obstaculo() {
-    TP *tp = tp_crear("ejemplo/pokemones.txt");
-    pa2m_afirmar(tp != NULL, "tp_crear crea un TP cuando el archivo es válido");
+void prueba_tp_tiempo_por_obstaculo()
+{
+	TP *tp = tp_crear("ejemplo/pokemones.txt");
+	pa2m_afirmar(tp != NULL,
+		     "tp_crear crea un TP cuando el archivo es válido");
 
-    tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu");
-    tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
+	tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu");
+	tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
 
-    char *tiempos = tp_tiempo_por_obstaculo(tp, JUGADOR_1);
-    pa2m_afirmar(tiempos != NULL, "Se obtiene el tiempo por obstáculo para el Jugador 1");
-    free(tiempos);
+	char *tiempos = tp_tiempo_por_obstaculo(tp, JUGADOR_1);
+	pa2m_afirmar(tiempos != NULL,
+		     "Se obtiene el tiempo por obstáculo para el Jugador 1");
+	free(tiempos);
 
-    tp_destruir(tp);
+	tp_destruir(tp);
 }
 
 int main()
@@ -184,18 +203,18 @@ int main()
 	prueba_tp_seleccionar_pokemon();
 
 	pa2m_nuevo_grupo(
-	"\n======================== XXX ========================");
+		"\n======================== XXX ========================");
 
-    pa2m_nuevo_grupo("Pruebas de Selección de Pokémon");
-    prueba_tp_seleccionar_pokemon2();
+	pa2m_nuevo_grupo("Pruebas de Selección de Pokémon");
+	prueba_tp_seleccionar_pokemon2();
 
-    // pa2m_nuevo_grupo("Pruebas de Obstáculos en la Pista");
-    // prueba_tp_agregar_y_quitar_obstaculo();
-    // prueba_tp_obstaculos_pista();
+	// pa2m_nuevo_grupo("Pruebas de Obstáculos en la Pista");
+	// prueba_tp_agregar_y_quitar_obstaculo();
+	// prueba_tp_obstaculos_pista();
 
-    // pa2m_nuevo_grupo("Pruebas de Cálculo de Tiempo en la Pista");
-    // prueba_tp_calcular_tiempo_pista();
-    // prueba_tp_tiempo_por_obstaculo();
+	// pa2m_nuevo_grupo("Pruebas de Cálculo de Tiempo en la Pista");
+	// prueba_tp_calcular_tiempo_pista();
+	// prueba_tp_tiempo_por_obstaculo();
 
 	return pa2m_mostrar_reporte();
 }
