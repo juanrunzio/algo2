@@ -22,24 +22,25 @@ struct tp
 	bool iniciado;
 };
 
-void destructor_pokemones(void *_pk)
+void destructor_pokemones(void *_poke)
 {
-	struct pokemon_info *pk = (struct pokemon_info *)_pk;
+	struct pokemon_info *pk = (struct pokemon_info *)_poke;
 	free(pk->nombre);
 	free(pk);
 }
 
-int cmp_pokemones(void *_pk1, const void *_pk2)
+int cmp_pokemones(void *_poke1, void *_poke2)
 {
-	return strcmp(((struct pokemon_info *)_pk1)->nombre,
-		      ((struct pokemon_info *)_pk2)->nombre);
+    const struct pokemon_info *pk1 = (const struct pokemon_info *)_poke1;
+    const struct pokemon_info *pk2 = (const struct pokemon_info *)_poke2;
+    return strcmp(pk1->nombre, pk2->nombre);
 }
 
 void transformar_texto(char *string)
 {
-	string[0] = (char)toupper(string[0]);
-	for (int i = 1; i < strlen(string); i++)
-		string[i] = (char)tolower(string[i]);
+    string[0] = (char)toupper(string[0]);
+    for (size_t i = 1; i < strlen(string); i++)
+        string[i] = (char)tolower(string[i]);
 }
 
 struct pokemon_info *crear_pokemon(char *nombre, int fuerza, int destreza, int inteligencia)
@@ -91,7 +92,7 @@ TP *llenar_abb_pokemones(TP *juego, FILE *pokemones)
 			limpiar_memoria(entrada);
 			return NULL;
 		}
-		struct poekmon_info *pokemon = crear_pokemon(entrada[NOMBRE], atoi(entrada[FUERZA]), atoi(entrada[DESTREZA]), atoi(entrada[INTELIGENCIA]));
+		struct pokemon_info *pokemon = crear_pokemon(entrada[NOMBRE], atoi(entrada[FUERZA]), atoi(entrada[DESTREZA]), atoi(entrada[INTELIGENCIA]));
 		if (!pokemon)
 		{
 			limpiar_memoria(entrada);
@@ -158,9 +159,9 @@ int tp_cantidad_pokemon(TP *tp)
 	return (int)abb_tamanio(tp->abb_pokemones);
 }
 
-bool se_encuentra_pokemon(void *_pk, void *_nombre)
+bool se_encuentra_pokemon(void *_poke, void *_nombre)
 {
-	struct pokemon_info *pk = _pk;
+	struct pokemon_info *pk = _poke;
 	char *nombre = _nombre;
 	return nombre == pk->nombre;
 }
@@ -183,40 +184,42 @@ const struct pokemon_info *tp_buscar_pokemon(TP *tp, const char *nombre)
 
 char *tp_nombres_disponibles(TP *tp)
 {
-	if (!tp)
-		return NULL;
-	size_t buffer = 1;
-	char *salida = (char *)malloc(buffer);
-	if (!salida)
-		return NULL;
-	size_t cantidad = (size_t)tp_cantidad_pokemon(tp);
-	struct pokemon_info **pokemones_array = malloc(cantidad * sizeof(struct pokemon_info *));
-	if (!pokemones_array)
-	{
-		free(salida);
-		return NULL;
-	}
-	salida[0] = '\0';
-	abb_recorrer(tp->abb_pokemones, 0, (void **)pokemones_array, cantidad);
-	for (int i = 0; i < cantidad; i++)
-	{
-		size_t new_size = buffer + strlen(pokemones_array[i]->nombre) + 1;
-		char *temp = (char *)realloc(salida, new_size);
-		if (!temp)
-		{
-			free(pokemones_array);
-			free(salida);
-			return NULL;
-		}
-		salida = temp;
-		strcat(salida, pokemones_array[i]->nombre);
-		strcat(salida, ",");
-		buffer = new_size;
-	}
-	if (buffer > 1)//ver si es mejor que sea 0
-		salida[buffer - 2] = '\0';//y acá un -1
-	free(pokemones_array);
-	return salida;
+	   if (!tp)
+        return NULL;
+    size_t buffer = 1;
+    char *salida = (char *)malloc(buffer);
+    if (!salida)
+        return NULL;
+    size_t cantidad = (size_t)tp_cantidad_pokemon(tp);
+    
+    
+    struct pokemon_info **pokemones_array = malloc(cantidad * sizeof(struct pokemon_info *));
+    if (!pokemones_array)
+    {
+        free(salida);
+        return NULL;
+    }
+    salida[0] = '\0';
+    abb_recorrer(tp->abb_pokemones, 0, (void **)pokemones_array, cantidad);
+    for (size_t i = 0; i < cantidad; i++)
+    {
+        size_t new_size = buffer + strlen(pokemones_array[i]->nombre) + 1;
+        char *temp = (char *)realloc(salida, new_size);
+        if (!temp)
+        {
+            free(pokemones_array);
+            free(salida);
+            return NULL;
+        }
+        salida = temp;
+        strcat(salida, pokemones_array[i]->nombre);
+        strcat(salida, ",");
+        buffer = new_size;
+    }
+    if (buffer > 1)
+        salida[buffer - 2] = '\0';
+    free(pokemones_array);
+    return salida;
 }
 
 bool tp_seleccionar_pokemon(TP *tp, enum TP_JUGADOR jugador, const char *nombre)

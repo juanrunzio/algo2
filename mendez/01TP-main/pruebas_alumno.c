@@ -42,7 +42,7 @@ void prueba_tp_cantidad_pokemon()
 void prueba_tp_buscar_pokemon()
 {
 	TP *tp = tp_crear(
-		"ejemplo/pokemones.txt"); // Asegúrate de tener un archivo "pokemones.txt" con datos correctos
+		"ejemplo/pokemones.txt");
 
 	pa2m_afirmar(tp_buscar_pokemon(tp, "Pikachu") != NULL,
 		     "Se encontró a Pikachu.");
@@ -59,7 +59,7 @@ void prueba_tp_buscar_pokemon()
 void prueba_tp_nombres_disponibles()
 {
 	TP *tp = tp_crear(
-		"ejemplo/pokemones.txt"); // Asegúrate de tener un archivo "pokemones.txt" con datos correctos
+		"ejemplo/pokemones.txt");
 
 	char *nombres = tp_nombres_disponibles(tp);
 	pa2m_afirmar(nombres != NULL,
@@ -77,7 +77,7 @@ void prueba_tp_nombres_disponibles()
 void prueba_tp_seleccionar_pokemon()
 {
 	TP *tp = tp_crear(
-		"ejemplo/pokemones.txt"); // Asegúrate de tener un archivo "pokemones.txt" con datos correctos
+		"ejemplo/pokemones.txt");
 
 	pa2m_afirmar(tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu"),
 		     "Jugador 1 seleccionó a Pikachu.");
