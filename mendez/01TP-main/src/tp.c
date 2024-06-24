@@ -30,8 +30,10 @@ void destructor_pokemones(void *_poke)
 
 int cmp_pokemones(void *_poke1, void *_poke2)
 {
-	const struct pokemon_info *poke_referencia1 = (const struct pokemon_info *)_poke1;
-	const struct pokemon_info *poke_referencia2 = (const struct pokemon_info *)_poke2;
+	const struct pokemon_info *poke_referencia1 =
+		(const struct pokemon_info *)_poke1;
+	const struct pokemon_info *poke_referencia2 =
+		(const struct pokemon_info *)_poke2;
 	return strcmp(poke_referencia1->nombre, poke_referencia2->nombre);
 }
 

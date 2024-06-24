@@ -103,17 +103,12 @@ char *jugador_mostrar_pista(player_t *jugador)
 		return NULL;
 
 	for (unsigned i = 0; i < jugador->tamanio_pista; i++) {
-		switch (jugador->pista[i]) {
-		case OBSTACULO_FUERZA:
+		if (jugador->pista[i] == OBSTACULO_FUERZA)
 			resultado[i] = 'F';
-			break;
-		case OBSTACULO_DESTREZA:
+		else if (jugador->pista[i] == OBSTACULO_DESTREZA)
 			resultado[i] = 'D';
-			break;
-		case OBSTACULO_INTELIGENCIA:
+		else if (jugador->pista[i] == OBSTACULO_INTELIGENCIA)
 			resultado[i] = 'I';
-			break;
-		}
 	}
 	resultado[jugador->tamanio_pista] = '\0';
 
@@ -138,20 +133,16 @@ unsigned jugador_tiempo_pista(player_t *jugador)
 		int atributo = 0;
 		int *consecutivos = NULL;
 
-		switch (jugador->pista[i]) {
-		case OBSTACULO_FUERZA:
+		if (jugador->pista[i] == OBSTACULO_FUERZA) {
 			atributo = jugador->pokemon->fuerza;
 			consecutivos = &obstaculos_consecutivos[0];
-			break;
-		case OBSTACULO_DESTREZA:
+		} else if (jugador->pista[i] == OBSTACULO_DESTREZA) {
 			atributo = jugador->pokemon->destreza;
 			consecutivos = &obstaculos_consecutivos[1];
-			break;
-		case OBSTACULO_INTELIGENCIA:
+		} else if (jugador->pista[i] == OBSTACULO_INTELIGENCIA) {
 			atributo = jugador->pokemon->inteligencia;
 			consecutivos = &obstaculos_consecutivos[2];
-			break;
-		default:
+		} else {
 			continue;
 		}
 
@@ -194,20 +185,16 @@ char *jugador_tiempo_por_obstaculo(player_t *jugador)
 		int atributo = 0;
 		int *consecutivos = NULL;
 
-		switch (jugador->pista[i]) {
-		case OBSTACULO_FUERZA:
+		if (jugador->pista[i] == OBSTACULO_FUERZA) {
 			atributo = jugador->pokemon->fuerza;
 			consecutivos = &obstaculos_consecutivos[0];
-			break;
-		case OBSTACULO_DESTREZA:
+		} else if (jugador->pista[i] == OBSTACULO_DESTREZA) {
 			atributo = jugador->pokemon->destreza;
 			consecutivos = &obstaculos_consecutivos[1];
-			break;
-		case OBSTACULO_INTELIGENCIA:
+		} else if (jugador->pista[i] == OBSTACULO_INTELIGENCIA) {
 			atributo = jugador->pokemon->inteligencia;
 			consecutivos = &obstaculos_consecutivos[2];
-			break;
-		default:
+		} else {
 			free(resultado);
 			return NULL;
 		}

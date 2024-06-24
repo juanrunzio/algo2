@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 void prueba_tp_crear_archivo_inexistente()
 {
 	TP *tp = tp_crear("archivo_inexistente.txt");
@@ -113,8 +112,9 @@ void prueba_tp_agregar_y_quitar_obstaculo()
 	pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0) >
 			     0,
 		     "Se agrega un obstáculo de fuerza para el Jugador 1");
-	pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_DESTREZA, 1) >
-			     0, "Se agrega un obstáculo de destreza para el Jugador 1");
+	pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_DESTREZA,
+					  1) > 0,
+		     "Se agrega un obstáculo de destreza para el Jugador 1");
 
 	tp_destruir(tp);
 }
@@ -135,7 +135,6 @@ void prueba_tp_obstaculos_pista()
 
 	tp_destruir(tp);
 }
-
 
 void prueba_tp_tiempo_por_obstaculo()
 {
