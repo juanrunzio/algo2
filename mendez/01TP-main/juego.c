@@ -227,12 +227,12 @@ bool ejecutar_carrera(TP *tp, Dificultad dif)
 			while (getchar() != '\n')
 				;
 			if (respuesta != 'N' && respuesta != 'n') {
-				printf("Volviendo al menú principal...\n");
+				printf("Volviendo al menú principal\n");
 				return true;
 			}
 		} else {
-			printf("Has alcanzado el máximo número de intentos.\n");
-			printf("Volviendo al menú principal...\n");
+			printf("Has alcanzado el máximo número de intentos\n");
+			printf("A continuacion volveras al menú principal...\n");
 			return true;
 		}
 	} while (intentos < dif.intentos_maximos);
