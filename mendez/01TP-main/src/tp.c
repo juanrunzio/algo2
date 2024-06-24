@@ -23,16 +23,16 @@ struct tp {
 
 void destructor_pokemones(void *_poke)
 {
-	struct pokemon_info *pk = (struct pokemon_info *)_poke;
-	free(pk->nombre);
-	free(pk);
+	struct pokemon_info *poke_referencia = (struct pokemon_info *)_poke;
+	free(poke_referencia->nombre);
+	free(poke_referencia);
 }
 
 int cmp_pokemones(void *_poke1, void *_poke2)
 {
-	const struct pokemon_info *pk1 = (const struct pokemon_info *)_poke1;
-	const struct pokemon_info *pk2 = (const struct pokemon_info *)_poke2;
-	return strcmp(pk1->nombre, pk2->nombre);
+	const struct pokemon_info *poke_referencia1 = (const struct pokemon_info *)_poke1;
+	const struct pokemon_info *poke_referencia2 = (const struct pokemon_info *)_poke2;
+	return strcmp(poke_referencia1->nombre, poke_referencia2->nombre);
 }
 
 void transformar_texto(char *string)
@@ -155,9 +155,9 @@ int tp_cantidad_pokemon(TP *tp)
 
 bool se_encuentra_pokemon(void *_poke, void *_nombre)
 {
-	struct pokemon_info *pk = _poke;
+	struct pokemon_info *poke_referencia = _poke;
 	char *nombre = _nombre;
-	return nombre == pk->nombre;
+	return nombre == poke_referencia->nombre;
 }
 
 const struct pokemon_info *tp_buscar_pokemon(TP *tp, const char *nombre)

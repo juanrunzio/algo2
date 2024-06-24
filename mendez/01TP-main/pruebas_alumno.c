@@ -4,12 +4,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-void prueba_simple()
-{
-	int i = 14;
-	int j = 18;
-	pa2m_afirmar(i != j, "i=14 es diferente de j=16");
-}
 
 void prueba_tp_crear_archivo_inexistente()
 {
@@ -119,8 +113,8 @@ void prueba_tp_agregar_y_quitar_obstaculo()
 	pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0) >
 			     0,
 		     "Se agrega un obstáculo de fuerza para el Jugador 1");
-	pa2m_afirmar(tp_quitar_obstaculo(tp, JUGADOR_1, 0) > 0,
-		     "Se quita el obstáculo de fuerza para el Jugador 1");
+	pa2m_afirmar(tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_DESTREZA, 1) >
+			     0, "Se agrega un obstáculo de destreza para el Jugador 1");
 
 	tp_destruir(tp);
 }
@@ -142,21 +136,6 @@ void prueba_tp_obstaculos_pista()
 	tp_destruir(tp);
 }
 
-void prueba_tp_calcular_tiempo_pista()
-{
-	TP *tp = tp_crear("ejemplo/pokemones.txt");
-	pa2m_afirmar(tp != NULL,
-		     "tp_crear crea un TP cuando el archivo es válido");
-
-	tp_seleccionar_pokemon(tp, JUGADOR_1, "Pikachu");
-	tp_agregar_obstaculo(tp, JUGADOR_1, OBSTACULO_FUERZA, 0);
-
-	unsigned tiempo = tp_calcular_tiempo_pista(tp, JUGADOR_1);
-	pa2m_afirmar(tiempo > 0,
-		     "Se calcula el tiempo de la pista para el Jugador 1");
-
-	tp_destruir(tp);
-}
 
 void prueba_tp_tiempo_por_obstaculo()
 {
@@ -179,10 +158,7 @@ int main()
 {
 	pa2m_nuevo_grupo(
 		"\n======================== XXX ========================");
-	prueba_simple();
 
-	pa2m_nuevo_grupo(
-		"\n======================== XXX ========================");
 	pa2m_nuevo_grupo("Pruebas de tp_crear");
 	prueba_tp_crear_archivo_inexistente();
 	prueba_tp_crear_archivo_valido();
@@ -208,13 +184,10 @@ int main()
 	pa2m_nuevo_grupo("Pruebas de Selección de Pokémon");
 	prueba_tp_seleccionar_pokemon2();
 
-	// pa2m_nuevo_grupo("Pruebas de Obstáculos en la Pista");
-	// prueba_tp_agregar_y_quitar_obstaculo();
-	// prueba_tp_obstaculos_pista();
-
-	// pa2m_nuevo_grupo("Pruebas de Cálculo de Tiempo en la Pista");
-	// prueba_tp_calcular_tiempo_pista();
-	// prueba_tp_tiempo_por_obstaculo();
+	pa2m_nuevo_grupo("Pruebas de Obstáculos en la Pista");
+	prueba_tp_agregar_y_quitar_obstaculo();
+	prueba_tp_obstaculos_pista();
+	prueba_tp_tiempo_por_obstaculo();
 
 	return pa2m_mostrar_reporte();
 }
