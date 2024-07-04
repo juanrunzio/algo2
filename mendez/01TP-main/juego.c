@@ -74,63 +74,68 @@ void crear_pista_rival(TP *tp, Dificultad dif)
 
 void armar_pista_jugador(TP *tp, Dificultad dif)
 {
-    int intentos = 0;
-    do {
-        tp_limpiar_pista(tp, JUGADOR_1);
-        printf("Arme su pista de obstáculos (F: Fuerza, D: Destreza, I: Inteligencia)\n");
-        printf("Ingrese los obstáculos uno por uno y presione Enter. Ingrese 'X' para terminar.\n");
+	int intentos = 0;
+	do {
+		tp_limpiar_pista(tp, JUGADOR_1);
+		printf("Arme su pista de obstáculos (F: Fuerza, D: Destreza, I: Inteligencia)\n");
+		printf("Ingrese los obstáculos uno por uno y presione Enter. Ingrese 'X' para terminar.\n");
 
-        char obstaculo;
-        int posicion = 0;
-        while (posicion < dif.longitud_pista) {
-            if (scanf(" %c", &obstaculo) != 1) {
-                while (getchar() != '\n')
-                    ;
-                printf("Entrada no válida. Intente de nuevo.\n");
-                continue;
-            }
-            if (obstaculo == 'X' || obstaculo == 'x') {
-                posicion = dif.longitud_pista;
-                continue;
-            }
-            enum TP_OBSTACULO tipo_obstaculo;
-            switch (obstaculo) {
-            case 'F':
-                tipo_obstaculo = OBSTACULO_FUERZA;
-            case 'D':
-                if (obstaculo == 'D') tipo_obstaculo = OBSTACULO_DESTREZA;
-            case 'I':
-                if (obstaculo == 'I') tipo_obstaculo = OBSTACULO_INTELIGENCIA;
-                if (!tp_agregar_obstaculo(tp, JUGADOR_1, tipo_obstaculo,
-                              (unsigned int)posicion)) {
-                    fprintf(stderr, "Error al agregar obstáculo\n");
-                    posicion = dif.longitud_pista; 
-                    continue;
-                }
-                posicion++;
-            default:
-                if (obstaculo != 'F' && obstaculo != 'D' && obstaculo != 'I') {
-                    printf("Obstáculo no válido. Use F, D, o I.\n");
-                }
-                continue;
-            }
-        }
+		char obstaculo;
+		int posicion = 0;
+		while (posicion < dif.longitud_pista) {
+			if (scanf(" %c", &obstaculo) != 1) {
+				while (getchar() != '\n')
+					;
+				printf("Entrada no válida. Intente de nuevo.\n");
+				continue;
+			}
+			if (obstaculo == 'X' || obstaculo == 'x') {
+				posicion = dif.longitud_pista;
+				continue;
+			}
+			enum TP_OBSTACULO tipo_obstaculo;
+			switch (obstaculo) {
+			case 'F':
+				tipo_obstaculo = OBSTACULO_FUERZA;
+			case 'D':
+				if (obstaculo == 'D')
+					tipo_obstaculo = OBSTACULO_DESTREZA;
+			case 'I':
+				if (obstaculo == 'I')
+					tipo_obstaculo = OBSTACULO_INTELIGENCIA;
+				if (!tp_agregar_obstaculo(
+					    tp, JUGADOR_1, tipo_obstaculo,
+					    (unsigned int)posicion)) {
+					fprintf(stderr,
+						"Error al agregar obstáculo\n");
+					posicion = dif.longitud_pista;
+					continue;
+				}
+				posicion++;
+			default:
+				if (obstaculo != 'F' && obstaculo != 'D' &&
+				    obstaculo != 'I') {
+					printf("Obstáculo no válido. Use F, D, o I.\n");
+				}
+				continue;
+			}
+		}
 
-        while (getchar() != '\n')
-            ;
+		while (getchar() != '\n')
+			;
 
-        intentos++;
+		intentos++;
 
-        if (intentos < dif.intentos_maximos) {
-            char respuesta;
-            printf("¿Desea guardar la pista de obstáculos? (S/N): ");
-            scanf(" %c", &respuesta);
-            while (getchar() != '\n')
-                ;
-            if (respuesta != 'N' && respuesta != 'n')
-                intentos = dif.intentos_maximos;
-        }
-    } while (intentos < dif.intentos_maximos);
+		if (intentos < dif.intentos_maximos) {
+			char respuesta;
+			printf("¿Desea guardar la pista de obstáculos? (S/N): ");
+			scanf(" %c", &respuesta);
+			while (getchar() != '\n')
+				;
+			if (respuesta != 'N' && respuesta != 'n')
+				intentos = dif.intentos_maximos;
+		}
+	} while (intentos < dif.intentos_maximos);
 }
 
 void mostrar_informacion_pokemon(const struct pokemon_info *pokemon)
@@ -375,86 +380,116 @@ int main(int argc, char *argv[])
 	bool pista_rival_creada = false;
 
 	while (!juego_terminado) {
-        menu_mostrar(menu);
-        int opcion = menu_seleccionar_opcion(menu);
+		menu_mostrar(menu);
+		int opcion = menu_seleccionar_opcion(menu);
 
-        switch (opcion) {
-        case 1:
-            seleccionar_dificultad(&nivel_dificultad);
-            pista_rival_creada = false;
-        case 2:
-            if (opcion == 2) {
-                printf("Seleccione su Pokemon: ");
-                scanf("%49s", nombre_pokemon_jugador);
-                while (getchar() != '\n')
-                    ;
+		switch (opcion) {
+		case 1:
+			seleccionar_dificultad(&nivel_dificultad);
+			pista_rival_creada = false;
+		case 2:
+			if (opcion == 2) {
+				printf("Seleccione su Pokemon: ");
+				scanf("%49s", nombre_pokemon_jugador);
+				while (getchar() != '\n')
+					;
 
-                if (!pokemon_existe(tp, nombre_pokemon_jugador)) {
-                    printf("El Pokemon %s no existe.\n",
-                           nombre_pokemon_jugador);
-                    nombre_pokemon_jugador[0] = '\0';
-                } else {
-                    char *nombres = tp_nombres_disponibles(tp);
-                    if (nombres) {
-                        char *token = strtok(nombres, ",");
-                        bool pokemon_seleccionado = false;
-                        while (token) {
-                            if (my_strcasecmp(token, nombre_pokemon_jugador) == 0) {
-                                if (!tp_seleccionar_pokemon(tp, JUGADOR_1, token)) {
-                                    fprintf(stderr, "Error al seleccionar el Pokemon del jugador\n");
-                                    nombre_pokemon_jugador[0] = '\0';
-                                } else {
-                                    printf("Pokemon %s seleccionado con éxito.\n", token);
-                                    strcpy(nombre_pokemon_jugador, token);
-                                    pokemon_seleccionado = true;
-                                }
-                                token = NULL;
-                            } else {
-                                token = strtok(NULL, ",");
-                            }
-                        }
-                        free(nombres);
-                        if (!pokemon_seleccionado) {
-                            printf("No se pudo seleccionar el Pokemon %s.\n",
-                                   nombre_pokemon_jugador);
-                            nombre_pokemon_jugador[0] = '\0';
-                        }
-                    } else {
-                        printf("Error al obtener la lista de Pokemones disponibles.\n");
-                        nombre_pokemon_jugador[0] = '\0';
-                    }
-                }
-                pista_rival_creada = false;
-            }
-        case 3:
-            if (opcion == 3) mostrar_informacion_pokemones(tp);
-        case 4:
-            if (opcion == 4) {
-                if (nivel_dificultad == 0 || nombre_pokemon_jugador[0] == '\0') {
-                    printf("Primero seleccione la dificultad y el Pokemon\n");
-                } else {
-                    Dificultad dif = dificultades[nivel_dificultad - 1];
-                    if (!pista_rival_creada) {
-                        crear_pista_rival(tp, dif);
-                        pista_rival_creada = true;
-                    }
-                    armar_pista_jugador(tp, dif);
-                }
-            }
-        case 5:
-            if (opcion == 5) {
-                if (nivel_dificultad == 0 || nombre_pokemon_jugador[0] == '\0' || !pista_rival_creada) {
-                    printf("Primero seleccione la dificultad, el Pokemon y arme la pista\n");
-                } else {
-                    ejecutar_carrera(tp, dificultades[nivel_dificultad - 1]);
-                }
-            }
-        case 6:
-            if (opcion == 6) juego_terminado = true;
-        default:
-            if (opcion < 1 || opcion > 6) printf("Opción no válida\n");
-        }
-    }
+				if (!pokemon_existe(tp,
+						    nombre_pokemon_jugador)) {
+					printf("El Pokemon %s no existe.\n",
+					       nombre_pokemon_jugador);
+					nombre_pokemon_jugador[0] = '\0';
+				} else {
+					char *nombres =
+						tp_nombres_disponibles(tp);
+					if (nombres) {
+						char *token =
+							strtok(nombres, ",");
+						bool pokemon_seleccionado =
+							false;
+						while (token) {
+							if (my_strcasecmp(
+								    token,
+								    nombre_pokemon_jugador) ==
+							    0) {
+								if (!tp_seleccionar_pokemon(
+									    tp,
+									    JUGADOR_1,
+									    token)) {
+									fprintf(stderr,
+										"Error al seleccionar el Pokemon del jugador\n");
+									nombre_pokemon_jugador
+										[0] = '\0';
+								} else {
+									printf("Pokemon %s seleccionado con éxito.\n",
+									       token);
+									strcpy(nombre_pokemon_jugador,
+									       token);
+									pokemon_seleccionado =
+										true;
+								}
+								token = NULL;
+							} else {
+								token = strtok(
+									NULL,
+									",");
+							}
+						}
+						free(nombres);
+						if (!pokemon_seleccionado) {
+							printf("No se pudo seleccionar el Pokemon %s.\n",
+							       nombre_pokemon_jugador);
+							nombre_pokemon_jugador[0] =
+								'\0';
+						}
+					} else {
+						printf("Error al obtener la lista de Pokemones disponibles.\n");
+						nombre_pokemon_jugador[0] =
+							'\0';
+					}
+				}
+				pista_rival_creada = false;
+			}
+		case 3:
+			if (opcion == 3)
+				mostrar_informacion_pokemones(tp);
+		case 4:
+			if (opcion == 4) {
+				if (nivel_dificultad == 0 ||
+				    nombre_pokemon_jugador[0] == '\0') {
+					printf("Primero seleccione la dificultad y el Pokemon\n");
+				} else {
+					Dificultad dif =
+						dificultades[nivel_dificultad -
+							     1];
+					if (!pista_rival_creada) {
+						crear_pista_rival(tp, dif);
+						pista_rival_creada = true;
+					}
+					armar_pista_jugador(tp, dif);
+				}
+			}
+		case 5:
+			if (opcion == 5) {
+				if (nivel_dificultad == 0 ||
+				    nombre_pokemon_jugador[0] == '\0' ||
+				    !pista_rival_creada) {
+					printf("Primero seleccione la dificultad, el Pokemon y arme la pista\n");
+				} else {
+					ejecutar_carrera(
+						tp,
+						dificultades[nivel_dificultad -
+							     1]);
+				}
+			}
+		case 6:
+			if (opcion == 6)
+				juego_terminado = true;
+		default:
+			if (opcion < 1 || opcion > 6)
+				printf("Opción no válida\n");
+		}
+	}
 
 	menu_destruir(menu);
 	tp_destruir(tp);
